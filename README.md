@@ -1,4 +1,4 @@
-# Galaxy-Hisoty-Test-Tool
+# Galaxy-History-Test-Tool
 
 The current progress:
 - connect to the galaxy server
