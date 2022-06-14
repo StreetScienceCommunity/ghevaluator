@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
+import os
+import sys
+
 import requests
 from bioblend.galaxy import GalaxyInstance
+from history_compare import compare
+import json
 
 gi = GalaxyInstance(url='https://usegalaxy.eu/', key='D4XEpojvk877VKOAtCpu8H2Irdr3kol')
 
@@ -23,10 +28,25 @@ for dataset in datasets:
     job.append(info['job_id'])
     # print(info)
 
-wf = gi.workflows.extract_workflow_from_history(history_id, history_name+"visible=true", job, dataset_hids=None,
+wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job, dataset_hids=None,
                                                 dataset_collection_hids=None)
-print(wf)
-workflow_id = wf['id']
-print("The workflow Id is: "+ workflow_id)
-path = 'D:/Study/22sose/Project'
-gi.workflows.export_workflow_to_local_path(workflow_id, path, use_default_filename=True)
+workflow_id = wf['id'] #c079401840ab7c3f
+# workflow_id = "c079401840ab7c3f"
+print("The workflow Id is: " + workflow_id)
+# path = 'D:/Study/22sose/Project'
+# gi.workflows.export_workflow_to_local_path(workflow_id, path, use_default_filename=True)
+
+userwf = gi.workflows.export_workflow_dict(workflow_id, version=None)
+
+URL = "https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga"
+response = requests.get(URL)
+open("userwf.ga", "wb").write(response.content)
+
+with open(os.path.join(sys.path[0], "userwf.ga"), "r") as f:
+    standardtemp = f.read()
+
+standardwf = json.loads(standardtemp)
+compare(userwf, standardwf)
+
+# need to create a dropdown list for selecting tutorials, and a database linking the tutorials with the related
+# workflow id. how to access the standard workflow files of the tutorials?
