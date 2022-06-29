@@ -20,3 +20,6 @@ can check:
 - (ongoing) The steps with the same tool names
 - (ongoing) what else to check? are tool_version, input_connections, workflow_outputs worth checking?
 - (ongoing) parameters still have a lot issues (mentioned in the codes comments)
+
+#  Installation instructions:
+    ...coming up
