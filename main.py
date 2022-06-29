@@ -34,11 +34,6 @@ def get_history():
     return history_id, history_name
 
 
-# workflow_id = "c079401840ab7c3f"
-
-# path = 'D:/Study/22sose/Project'
-# gi.workflows.export_workflow_to_local_path(workflow_id, path, use_default_filename=True)
-
 def get_standard_workflow():
     URL = "https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga"
     response = requests.get(URL)
@@ -58,27 +53,9 @@ def main():
     compare(usrwf, stdwf)
 
 
-#  https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
-
 if __name__ == "__main__":
     main()
 
-# history_link = 'https://usegalaxy.eu/u/sbray/h/mpro-x1093'
-#
-# gi.histories.get_histories(slug='mpro-x1093') # get history id from the history_link
-#
-# datasets = gi.datasets.get_datasets(history_id=history_id, state='ok') # filter datasets on id from above, and state=ok
-#
-# dataset_hids = [ds['hid'] for ds in datasets if ds['history_content_type'] == 'dataset'] # dataset hids for extracting WF
-# dataset_collection_hids = [ds['hid'] for ds in datasets if ds['history_content_type'] == 'dataset_collection'] # dataset collection hids for extracting WF
-#
-# # extract workflow from history, get id of workflow
-# gi.workflows.extract_workflow_from_history(history_id, dataset_collection_hids=dataset_collection_hids, dataset_hids=dataset_hids)
-#
-# gi.workflows.export_workflow_dict(workflow_id)
 
 
-# need to create a dropdown list for selecting tutorials, and a database linking the tutorials with the related
-# workflow id. how to access the standard workflow files of the tutorials? output in json/yaml file
-# send dulplicate result to berenice
-# two types of input for the standard workflow
+

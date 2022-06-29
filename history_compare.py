@@ -3,7 +3,15 @@ import json
 
 
 def compare(user_workflow, standard_workflow):
-    # print(standard_workflow['steps']['3']['name'])
+    """
+    This function takes in the two workflows generated in the main.py,
+    and passes them into the function where the actual comparison happens.
+    Potentially, it will be linked to the yaml/json output for generating the report
+
+    :param user_workflow:
+    :param standard_workflow:
+    :return: result(temporal)
+    """
     temp1 = standard_workflow['steps']
     temp2 = user_workflow['steps']
     result = get_all_values(temp1, temp2)
@@ -13,15 +21,20 @@ def compare(user_workflow, standard_workflow):
         print("Some mistakes were made.")
 
 
-# compare std wf with user wf for different features, returning a boolean representing the final result
 def get_all_values(dict1, dict2):
+    """
+    Compare standard workflow with user workflow for multiple features, returning a boolean representing the final result
+
+    :param dict1:
+    :param dict2:
+    :return:
+    """
     all_tools_correct = False
     all_parameters_correct = False
 
     for key, value in dict1.items():
         # returns the name of the tool of each step.
         print("Now we are checking Step: " + value['name'])
-        # print(value['tool_state'])  # returns a string, / is ignored.
         # all_tools_correct = check_if_exist(value['name'], dict2)
 
         exist = False  # 1. "exist" - to check if a tool was used:
@@ -42,10 +55,8 @@ def get_all_values(dict1, dict2):
                 parameters = check_parameters(current_parameters, value2['tool_state'])
                 break
 
-        # reports
         # report the results of Tools
         if exist:
-            # print("Tool( " + current_tool + " ) was used.")
             all_tools_correct = True
         else:
             print("Tool( " + current_tool + " ) was NOT used.")
@@ -53,7 +64,6 @@ def get_all_values(dict1, dict2):
 
         # report the results of Parameters
         if parameters == 0:
-            # print("Parameters used in ( " + current_tool + " ) were correct.")
             all_parameters_correct = True
         else:
             print("Parameters used in ( " + current_tool + " have " + str(parameters) + " mistakes")
@@ -67,11 +77,18 @@ def get_all_values(dict1, dict2):
     return all_tools_correct
 
 
-# a lot more details needed to be added here:
-#  e.g. some differences in the format will result in a count as mistake, but they are actually the same
-#       some values are set to as default in the newer version's of the tool, need to be excluded
-#       input connections have different values naturally
 def check_parameters(str1, str2):
+    """
+    further compare the parameters between two matched tools used
+    a lot more details needed to be added here:
+    e.g. some differences in the format will result in a count as mistake, but they are actually the same
+      some values are set to as default in the newer version's of the tool, need to be excluded
+      input connections have different values naturally
+
+    :param str1:
+    :param str2:
+    :return: the number of the mismatches
+    """
     std_pr = json.loads(str1)
     user_pr = json.loads(str2)
     count = 0
@@ -88,8 +105,16 @@ def check_parameters(str1, str2):
     return count
 
 
-# check if the current tool in std wf exists in user wf
 def check_if_exist(term, wf):
+    """
+    OLD function used to check if the current tool in standard workflow exists in user workflow
+    no longer in used, since it has been merged into the get_all_values.
+    for the simplicity of the codes, maybe I will change it back.
+
+    :param term:
+    :param wf:
+    :return: true or false
+    """
     exist = False
     for key, value in wf.items():
         if term == "Input dataset" and value['name'] == "Data Fetch":
