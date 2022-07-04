@@ -10,15 +10,18 @@ def compare(user_workflow, standard_workflow):
 
     :param user_workflow:
     :param standard_workflow:
-    :return: result(temporal)
+    :return: report (as a dictionary)
     """
+
     temp1 = standard_workflow['steps']
     temp2 = user_workflow['steps']
     result = get_all_values(temp1, temp2)
-    if result:
-        print("Every step was executed as expected, good job!")
-    else:
-        print("Some mistakes were made.")
+    # if result:
+    #     print("Every step was executed as expected, good job!")
+    #     return report
+    # else:
+    #     print("Some mistakes were made.")
+    return result
 
 
 def get_all_values(dict1, dict2):
@@ -31,17 +34,25 @@ def get_all_values(dict1, dict2):
     """
     all_tools_correct = False
     all_parameters_correct = False
+    report = dict_initialize()
+    dict_tools = dict()
+    tool_score = 100
+    penalty = 100/len(dict1.keys())
+    std_list = []
+    usr_list = record_steps(dict2)
+    # {keyName1: value1, keyName2: value2, keyName3: [val1, val2, val3]}
 
     for key, value in dict1.items():
         # returns the name of the tool of each step.
         print("Now we are checking Step: " + value['name'])
-        # all_tools_correct = check_if_exist(value['name'], dict2)
 
         exist = False  # 1. "exist" - to check if a tool was used:
         parameters = 0  # 2. "parameters" - to check if parameters were selected correctly:
 
         current_tool = value['name']
         current_parameters = value['tool_state']
+
+        std_list.append(current_tool)
 
         for key1, value2 in dict2.items():
             if current_tool == "Input dataset" and value2['name'] == "Data Fetch":
@@ -60,6 +71,7 @@ def get_all_values(dict1, dict2):
             all_tools_correct = True
         else:
             print("Tool( " + current_tool + " ) was NOT used.")
+            tool_score = tool_score - penalty
             all_tools_correct = False
 
         # report the results of Parameters
@@ -69,12 +81,36 @@ def get_all_values(dict1, dict2):
             print("Parameters used in ( " + current_tool + " have " + str(parameters) + " mistakes")
             all_parameters_correct = False
 
+    dict_tools['score'] = tool_score
+    dict_tools['standard_steps'] = std_list
+    dict_tools['user_steps'] = usr_list
+
+    report['tool_selection'] = dict_tools
+
     if all_tools_correct:
         print("All Steps were carried out!")
     if not all_parameters_correct:
         print("There are some mistakes with parameters.")
 
-    return all_tools_correct
+    return report
+
+
+def dict_initialize():
+    newdict = dict()
+    emptydict = dict()
+    newdict['score'] = 0
+    newdict['tool_selection'] = emptydict
+    newdict['tool_versions'] = 0
+    newdict['input_connection'] = 0
+    newdict['parameters'] = emptydict
+    return newdict
+
+
+def record_steps(dict_temp):
+    list_temp = []
+    for key, value in dict_temp.items():
+        list_temp.append(value['name'] )
+    return list_temp
 
 
 def check_parameters(str1, str2):

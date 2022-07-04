@@ -44,13 +44,20 @@ def get_standard_workflow():
     return standardwf
 
 
+def generate_report_file(report):
+    with open('report.json', 'w', encoding='utf-8') as f:
+        json.dump(report, f, ensure_ascii=False, indent=4)
+
+
 def main():
     his = get_history()
     his_id = his[0]
     his_name = his[1]
     usrwf = get_user_workflow(his_id, his_name)
     stdwf = get_standard_workflow()
-    compare(usrwf, stdwf)
+    report = compare(usrwf, stdwf)
+    generate_report_file(report)
+    print(report)
 
 
 if __name__ == "__main__":
