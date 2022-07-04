@@ -1,0 +1,40 @@
+{
+    "score": 0,
+    "tool_selection": {
+        "score": 100,
+        "standard_steps": [
+            "Input dataset",
+            "Input dataset",
+            "Input dataset",
+            "FastQC",
+            "FastQC",
+            "FASTQ interlacer",
+            "MultiQC",
+            "velveth",
+            "velvetg",
+            "Quast"
+        ],
+        "user_steps": [
+            "Data Fetch",
+            "Data Fetch",
+            "Data Fetch",
+            "FastQC",
+            "FastQC",
+            "FastQC",
+            "FastQC",
+            "FASTQ interlacer",
+            "FASTQ interlacer",
+            "MultiQC",
+            "velveth",
+            "velveth",
+            "velvetg",
+            "velvetg",
+            "velvetg",
+            "velvetg",
+            "Quast"
+        ]
+    },
+    "tool_versions": 0,
+    "input_connection": 0,
+    "parameters": {}
+}
