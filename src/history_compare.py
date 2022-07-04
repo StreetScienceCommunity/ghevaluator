@@ -36,8 +36,10 @@ def get_all_values(dict1, dict2):
     all_parameters_correct = False
     report = dict_initialize()
     dict_tools = dict()
+    dict_param = dict()
     tool_score = 100
     penalty = 100/len(dict1.keys())
+    param_mistakes = 0
     std_list = []
     usr_list = record_steps(dict2)
     # {keyName1: value1, keyName2: value2, keyName3: [val1, val2, val3]}
@@ -51,7 +53,8 @@ def get_all_values(dict1, dict2):
 
         current_tool = value['name']
         current_parameters = value['tool_state']
-
+        dict_for_thisloop = dict()
+        dict_for_thisloop['standard_param'] = current_parameters
         std_list.append(current_tool)
 
         for key1, value2 in dict2.items():
@@ -63,8 +66,12 @@ def get_all_values(dict1, dict2):
             if value2['name'] == current_tool:
                 value2['name'] = value2['name'] + "_used"
                 exist = True
+                dict_for_thisloop['user_param'] = value2['tool_state']
                 parameters = check_parameters(current_parameters, value2['tool_state'])
                 break
+
+        param_mistakes = param_mistakes + parameters
+        dict_param[current_tool] = dict_for_thisloop
 
         # report the results of Tools
         if exist:
@@ -84,8 +91,10 @@ def get_all_values(dict1, dict2):
     dict_tools['score'] = tool_score
     dict_tools['standard_steps'] = std_list
     dict_tools['user_steps'] = usr_list
+    dict_param['number of mismatches'] = param_mistakes
 
     report['tool_selection'] = dict_tools
+    report['parameters'] = dict_param
 
     if all_tools_correct:
         print("All Steps were carried out!")
@@ -98,10 +107,10 @@ def get_all_values(dict1, dict2):
 def dict_initialize():
     newdict = dict()
     emptydict = dict()
-    newdict['score'] = 0
+    newdict['score'] = 100
     newdict['tool_selection'] = emptydict
-    newdict['tool_versions'] = 0
-    newdict['input_connection'] = 0
+    newdict['tool_versions'] = emptydict
+    newdict['input_connection'] = emptydict
     newdict['parameters'] = emptydict
     return newdict
 
@@ -128,9 +137,12 @@ def check_parameters(str1, str2):
     std_pr = json.loads(str1)
     user_pr = json.loads(str2)
     count = 0
+    std_step_param = dict()
+    user_step_param = dict()
 
     # not counting missing parameters as wrong at this moment.
     for k in std_pr.keys():
+        std_step_param[k] = std_pr[k]
         # print("Current Parameter is: " + k)
         if k in user_pr:
             if std_pr[k] != user_pr[k]:
