@@ -26,8 +26,9 @@ def compare(user_workflow, standard_workflow):
 
 def get_all_values(dict1, dict2):
     """
-    Compare standard workflow with user workflow for multiple features, returning a boolean representing the final result
-
+    Compare standard workflow with user workflow for multiple features, return a boolean representing the final result
+    idea: for param! under each tool,  start a new dictionary{matched:xxx, mismached:xxx}, xxx is another
+    dictionary{std_param: usrparam(or empty if not found)}.
     :param dict1:
     :param dict2:
     :return:
