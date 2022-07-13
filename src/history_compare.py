@@ -56,19 +56,25 @@ def get_all_values(dict1, dict2):
         current_parameters = value['tool_state']
         dict_for_thisloop = dict()
         dict_for_thisloop['standard_param'] = current_parameters
-        std_list.append(current_tool)
+        dict_for_thisloop['status'] = True
+        tool_state = dict()
+        tool_state[current_tool] = True
+
 
         for key1, value2 in dict2.items():
             if current_tool == "Input dataset" and value2['name'] == "Data Fetch":
                 value2['name'] = value2['name'] + "_used"
                 exist = True
-                parameters = check_parameters(current_parameters, value2['tool_state'])
+                dict_for_thisloop['user_param'] = value2['tool_state']
+                parameters, tempd = check_parameters(current_parameters, value2['tool_state'], dict_for_thisloop)
+                dict_for_thisloop = tempd
                 break
             if value2['name'] == current_tool:
                 value2['name'] = value2['name'] + "_used"
                 exist = True
                 dict_for_thisloop['user_param'] = value2['tool_state']
-                parameters = check_parameters(current_parameters, value2['tool_state'])
+                parameters, tempd = check_parameters(current_parameters, value2['tool_state'], dict_for_thisloop)
+                dict_for_thisloop = tempd
                 break
 
         param_mistakes = param_mistakes + parameters
@@ -80,7 +86,10 @@ def get_all_values(dict1, dict2):
         else:
             print("Tool( " + current_tool + " ) was NOT used.")
             tool_score = tool_score - penalty
+            tool_state[current_tool] = False
             all_tools_correct = False
+
+        std_list.append(tool_state)
 
         # report the results of Parameters
         if parameters == 0:
@@ -88,7 +97,7 @@ def get_all_values(dict1, dict2):
         else:
             print("Parameters used in ( " + current_tool + " have " + str(parameters) + " mistakes")
             all_parameters_correct = False
-
+    # adding values to the according sub-dictionary
     dict_tools['score'] = tool_score
     dict_tools['standard_steps'] = std_list
     dict_tools['user_steps'] = usr_list
@@ -123,7 +132,7 @@ def record_steps(dict_temp):
     return list_temp
 
 
-def check_parameters(str1, str2):
+def check_parameters(str1, str2, current_dict):
     """
     further compare the parameters between two matched tools used
     a lot more details needed to be added here:
@@ -147,11 +156,12 @@ def check_parameters(str1, str2):
         # print("Current Parameter is: " + k)
         if k in user_pr:
             if std_pr[k] != user_pr[k]:
+                current_dict['status'] = False
                 count = count + 1
         else:
             print("!!! parameter [" + k + "] does NOT exist in user inputs")
 
-    return count
+    return count, current_dict
 
 
 def check_if_exist(term, wf):
