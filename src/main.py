@@ -7,7 +7,7 @@ from bioblend.galaxy import GalaxyInstance
 from history_compare import compare
 import json
 
-
+# https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
 def get_user_workflow(history_id, history_name):
     gi = GalaxyInstance(url='https://usegalaxy.eu/', key='D4XEpojvk877VKOAtCpu8H2Irdr3kol')
     datasets = gi.histories.show_history(history_id, True, False, True, None, 'dataset')
@@ -15,9 +15,10 @@ def get_user_workflow(history_id, history_name):
     for dataset in datasets:
         info = gi.histories.show_dataset_provenance(history_id, dataset['id'], follow=False)
         job.append(info['job_id'])
-    wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
-                                                    dataset_hids=None, dataset_collection_hids=None)
-    workflow_id = wf['id']
+    # wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
+    #                                                 dataset_hids=None, dataset_collection_hids=None)
+    # workflow_id = wf['id']
+    workflow_id = '8fce485f316eb0ea'
     print("The workflow Id is: " + workflow_id)
     userwf = gi.workflows.export_workflow_dict(workflow_id, version=None)
     return userwf
@@ -57,7 +58,7 @@ def main():
     stdwf = get_standard_workflow()
     report = compare(usrwf, stdwf)
     generate_report_file(report)
-    print(report)
+    # print(report)
 
 
 if __name__ == "__main__":
