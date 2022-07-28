@@ -1,271 +1,305 @@
 {
-    "Overall Score": 100,
     "0": {
-        "Tool Used": {
-            "Expected Value": "Input dataset",
-            "User Value": "Data Fetch",
-            "Status": true
+        "tool_used": {
+            "expected_value": "Input dataset",
+            "user_value": "Data Fetch",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": null,
-            "User Id": "__DATA_FETCH__",
-            "Status": false
+        "tool_id": {
+            "expected_id": 0,
+            "user_id": 0,
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "0.1.0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": 0,
+            "user_dev": 0,
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": 0,
+            "user_version": 0,
+            "status": true
+        },
+        "parameters": {
             "param_values": {
                 "optional": {
-                    "expected input": false,
-                    "user input": 0,
-                    "status": false
+                    "expected_input": false,
+                    "user_input": "none",
+                    "status": null
                 }
             },
-            "param_status": true,
-            "Number of mismatches": 0
+            "param_overall_status": true,
+            "number_of_mismatches": 0,
+            "total_number_of_param": 1
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "1": {
-        "Tool Used": {
-            "Expected Value": "Input dataset",
-            "User Value": "Data Fetch",
-            "Status": true
+        "tool_used": {
+            "expected_value": "Input dataset",
+            "user_value": "Data Fetch",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": null,
-            "User Id": "__DATA_FETCH__",
-            "Status": false
+        "tool_id": {
+            "expected_id": 0,
+            "user_id": 0,
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "0.1.0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": 0,
+            "user_dev": 0,
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": 0,
+            "user_version": 0,
+            "status": true
+        },
+        "parameters": {
             "param_values": {
                 "optional": {
-                    "expected input": false,
-                    "user input": 0,
-                    "status": false
+                    "expected_input": false,
+                    "user_input": "none",
+                    "status": null
                 }
             },
-            "param_status": true,
-            "Number of mismatches": 0
+            "param_overall_status": true,
+            "number_of_mismatches": 0,
+            "total_number_of_param": 1
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "2": {
-        "Tool Used": {
-            "Expected Value": "Input dataset",
-            "User Value": "Data Fetch",
-            "Status": true
+        "tool_used": {
+            "expected_value": "Input dataset",
+            "user_value": "Data Fetch",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": null,
-            "User Id": "__DATA_FETCH__",
-            "Status": false
+        "tool_id": {
+            "expected_id": 0,
+            "user_id": 0,
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "0.1.0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": 0,
+            "user_dev": 0,
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": 0,
+            "user_version": 0,
+            "status": true
+        },
+        "parameters": {
             "param_values": {
                 "optional": {
-                    "expected input": false,
-                    "user input": 0,
-                    "status": false
+                    "expected_input": false,
+                    "user_input": "none",
+                    "status": null
                 }
             },
-            "param_status": true,
-            "Number of mismatches": 0
+            "param_overall_status": true,
+            "number_of_mismatches": 0,
+            "total_number_of_param": 1
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "3": {
-        "Tool Used": {
-            "Expected Value": "FastQC",
-            "User Value": "FastQC",
-            "Status": true
+        "tool_used": {
+            "expected_value": "FastQC",
+            "user_value": "FastQC",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72+galaxy1",
-            "User Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.73+galaxy0",
-            "Status": false
+        "tool_id": {
+            "expected_id": "fastqc",
+            "user_id": "fastqc",
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "0.73+galaxy0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "devteam",
+            "user_dev": "devteam",
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "0.72+galaxy1",
+            "user_version": "0.73+galaxy0",
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "min_length": {
-                    "expected input": "",
-                    "user input": null,
+                    "expected_input": "",
+                    "user_input": null,
                     "status": false
                 },
                 "kmers": {
-                    "expected input": "7",
-                    "user input": "7",
+                    "expected_input": "7",
+                    "user_input": "7",
                     "status": true
                 },
                 "limits": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "input_file": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "ConnectedValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "contaminants": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "adapters": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "nogroup": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 5
+            "param_overall_status": false,
+            "number_of_mismatches": 5,
+            "total_number_of_param": 9
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "4": {
-        "Tool Used": {
-            "Expected Value": "FastQC",
-            "User Value": "FastQC",
-            "Status": true
+        "tool_used": {
+            "expected_value": "FastQC",
+            "user_value": "FastQC",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72+galaxy1",
-            "User Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.73+galaxy0",
-            "Status": false
+        "tool_id": {
+            "expected_id": "fastqc",
+            "user_id": "fastqc",
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "0.73+galaxy0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "devteam",
+            "user_dev": "devteam",
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "0.72+galaxy1",
+            "user_version": "0.73+galaxy0",
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "min_length": {
-                    "expected input": "",
-                    "user input": null,
+                    "expected_input": "",
+                    "user_input": null,
                     "status": false
                 },
                 "kmers": {
-                    "expected input": "7",
-                    "user input": "7",
+                    "expected_input": "7",
+                    "user_input": "7",
                     "status": true
                 },
                 "limits": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "input_file": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "ConnectedValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "contaminants": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "adapters": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "RuntimeValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "nogroup": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 10
+            "param_overall_status": false,
+            "number_of_mismatches": 5,
+            "total_number_of_param": 9
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "5": {
-        "Tool Used": {
-            "Expected Value": "FASTQ interlacer",
-            "User Value": "FASTQ interlacer",
-            "Status": true
+        "tool_used": {
+            "expected_value": "FASTQ interlacer",
+            "user_value": "FASTQ interlacer",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0",
-            "User Id": "toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0",
-            "Status": true
+        "tool_id": {
+            "expected_id": "fastq_paired_end_interlacer",
+            "user_id": "fastq_paired_end_interlacer",
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "1.2.0.1+galaxy0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "devteam",
+            "user_dev": "devteam",
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "1.2.0.1+galaxy0",
+            "user_version": "1.2.0.1+galaxy0",
+            "status": true
+        },
+        "parameters": {
             "param_values": {
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "reads": {
-                    "expected input": {
+                    "expected_input": {
                         "input2_file": {
                             "__class__": "ConnectedValue"
                         },
@@ -275,7 +309,7 @@
                         "__current_case__": 0,
                         "reads_selector": "paired"
                     },
-                    "user input": {
+                    "user_input": {
                         "reads_selector": "paired",
                         "__current_case__": 0,
                         "input1_file": null,
@@ -284,56 +318,62 @@
                     "status": false
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 11
+            "param_overall_status": false,
+            "number_of_mismatches": 1,
+            "total_number_of_param": 3
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "6": {
-        "Tool Used": {
-            "Expected Value": "MultiQC",
-            "User Value": "MultiQC",
-            "Status": true
+        "tool_used": {
+            "expected_value": "MultiQC",
+            "user_value": "MultiQC",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7",
-            "User Id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.11+galaxy0",
-            "Status": false
+        "tool_id": {
+            "expected_id": "multiqc",
+            "user_id": "multiqc",
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "1.11+galaxy0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "iuc",
+            "user_dev": "iuc",
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "1.7",
+            "user_version": "1.11+galaxy0",
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "comment": {
-                    "expected input": "",
-                    "user input": "",
+                    "expected_input": "",
+                    "user_input": "",
                     "status": true
                 },
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "title": {
-                    "expected input": "",
-                    "user input": "",
+                    "expected_input": "",
+                    "user_input": "",
                     "status": true
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "results": {
-                    "expected input": [
+                    "expected_input": [
                         {
                             "__index__": 0,
                             "software_cond": {
@@ -358,7 +398,7 @@
                             }
                         }
                     ],
-                    "user input": [
+                    "user_input": [
                         {
                             "__index__": 0,
                             "software_cond": {
@@ -377,56 +417,62 @@
                     "status": false
                 },
                 "saveLog": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 12
+            "param_overall_status": false,
+            "number_of_mismatches": 1,
+            "total_number_of_param": 6
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "7": {
-        "Tool Used": {
-            "Expected Value": "velveth",
-            "User Value": "velveth",
-            "Status": true
+        "tool_used": {
+            "expected_value": "velveth",
+            "user_value": "velveth",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.1",
-            "User Id": "velveth",
-            "Status": false
+        "tool_id": {
+            "expected_id": "velveth",
+            "user_id": 0,
+            "status": false
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "1.0.0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "devteam",
+            "user_dev": 0,
+            "status": false
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "1.2.10.1",
+            "user_version": 0,
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "hash_length": {
-                    "expected input": "29",
-                    "user input": "29",
+                    "expected_input": "29",
+                    "user_input": "29",
                     "status": true
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "strand_specific": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 },
                 "inputs": {
-                    "expected input": [
+                    "expected_input": [
                         {
                             "__index__": 0,
                             "read_type": "-shortPaired",
@@ -436,7 +482,7 @@
                             "file_format": "-fastq"
                         }
                     ],
-                    "user input": [
+                    "user_input": [
                         {
                             "__index__": 0,
                             "file_format": "-fastq",
@@ -447,63 +493,69 @@
                     "status": false
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 13
+            "param_overall_status": false,
+            "number_of_mismatches": 1,
+            "total_number_of_param": 5
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "8": {
-        "Tool Used": {
-            "Expected Value": "velvetg",
-            "User Value": "velvetg",
-            "Status": true
+        "tool_used": {
+            "expected_value": "velvetg",
+            "user_value": "velvetg",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.1",
-            "User Id": "velvetg",
-            "Status": false
+        "tool_id": {
+            "expected_id": "velvetg",
+            "user_id": 0,
+            "status": false
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "1.0.0",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "devteam",
+            "user_dev": 0,
+            "status": false
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "1.2.10.1",
+            "user_version": 0,
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "last_graph": {
-                    "expected input": {
+                    "expected_input": {
                         "generate_graph": "no",
                         "__current_case__": 0
                     },
-                    "user input": {
+                    "user_input": {
                         "generate_graph": "no",
                         "__current_case__": 0
                     },
                     "status": true
                 },
                 "generate_amos": {
-                    "expected input": {
+                    "expected_input": {
                         "afg": "no",
                         "__current_case__": 0
                     },
-                    "user input": {
+                    "user_input": {
                         "afg": "no",
                         "__current_case__": 0
                     },
                     "status": true
                 },
                 "reads": {
-                    "expected input": {
+                    "expected_input": {
                         "paired": "yes",
                         "options": {
                             "__current_case__": 0,
@@ -512,7 +564,7 @@
                         "__current_case__": 1,
                         "ins_length": "-1"
                     },
-                    "user input": {
+                    "user_input": {
                         "paired": "yes",
                         "__current_case__": 1,
                         "ins_length": "-1",
@@ -524,97 +576,103 @@
                     "status": true
                 },
                 "unused_reads": {
-                    "expected input": {
+                    "expected_input": {
                         "generate_unused": "no",
                         "__current_case__": 0
                     },
-                    "user input": {
+                    "user_input": {
                         "generate_unused": "no",
                         "__current_case__": 0
                     },
                     "status": true
                 },
                 "coverage": {
-                    "expected input": {
+                    "expected_input": {
                         "cutoff": "none",
                         "__current_case__": 0
                     },
-                    "user input": {
+                    "user_input": {
                         "cutoff": "none",
                         "__current_case__": 0
                     },
                     "status": true
                 },
                 "expected": {
-                    "expected input": {
+                    "expected_input": {
                         "__current_case__": 0,
                         "coverage": "none"
                     },
-                    "user input": {
+                    "user_input": {
                         "coverage": "none",
                         "__current_case__": 0
                     },
                     "status": true
                 },
                 "input": {
-                    "expected input": {
+                    "expected_input": {
                         "__class__": "ConnectedValue"
                     },
-                    "user input": null,
+                    "user_input": null,
                     "status": false
                 },
                 "read_trkg": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 },
                 "contig_lgth": {
-                    "expected input": {
+                    "expected_input": {
                         "__current_case__": 0,
                         "use_contig_lgth": "no"
                     },
-                    "user input": {
+                    "user_input": {
                         "use_contig_lgth": "no",
                         "__current_case__": 0
                     },
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 14
+            "param_overall_status": false,
+            "number_of_mismatches": 1,
+            "total_number_of_param": 11
         },
-        "Inputs": {}
+        "inputs": {}
     },
     "9": {
-        "Tool Used": {
-            "Expected Value": "Quast",
-            "User Value": "Quast",
-            "Status": true
+        "tool_used": {
+            "expected_value": "Quast",
+            "user_value": "Quast",
+            "status": true
         },
-        "Tool ID": {
-            "Expected Id": "toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/5.0.2+galaxy0",
-            "User Id": "toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/5.0.2+galaxy2",
-            "Status": false
+        "tool_id": {
+            "expected_id": "quast",
+            "user_id": "quast",
+            "status": true
         },
-        "Tool Version": {
-            "Expected Version": null,
-            "User Version": "5.0.2+galaxy2",
-            "Status": false
+        "tool_dev": {
+            "expected_dev": "iuc",
+            "user_dev": "iuc",
+            "status": true
         },
-        "Parameters": {
+        "tool_version": {
+            "expected_version": "5.0.2+galaxy0",
+            "user_version": "5.0.2+galaxy2",
+            "status": false
+        },
+        "parameters": {
             "param_values": {
                 "scaffold_gap_max_size": {
-                    "expected input": "1000",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "1000",
+                    "user_input": "none",
+                    "status": null
                 },
                 "skip_unaligned_mis_contigs": {
-                    "expected input": "true",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "true",
+                    "user_input": "none",
+                    "status": null
                 },
                 "assembly": {
-                    "expected input": {
+                    "expected_input": {
                         "ref": {
                             "operons": {
                                 "__class__": "RuntimeValue"
@@ -632,7 +690,7 @@
                         "type": "genome",
                         "__current_case__": 0
                     },
-                    "user input": {
+                    "user_input": {
                         "type": "genome",
                         "__current_case__": 0,
                         "ref": {
@@ -652,32 +710,32 @@
                     "status": false
                 },
                 "circos": {
-                    "expected input": "false",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "false",
+                    "user_input": "none",
+                    "status": null
                 },
                 "contig_thresholds": {
-                    "expected input": "0,1000",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "0,1000",
+                    "user_input": "none",
+                    "status": null
                 },
                 "__page__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "strict_NA": {
-                    "expected input": "false",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "false",
+                    "user_input": "none",
+                    "status": null
                 },
                 "__rerun_remap_job_id__": {
-                    "expected input": null,
-                    "user input": null,
+                    "expected_input": null,
+                    "user_input": null,
                     "status": true
                 },
                 "genes": {
-                    "expected input": {
+                    "expected_input": {
                         "rna_finding": "false",
                         "gene_finding": {
                             "tool": "none",
@@ -685,7 +743,7 @@
                         },
                         "conserved_genes_finding": "false"
                     },
-                    "user input": {
+                    "user_input": {
                         "gene_finding": {
                             "tool": "none",
                             "__current_case__": 0
@@ -696,12 +754,12 @@
                     "status": true
                 },
                 "unaligned_part_size": {
-                    "expected input": "500",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "500",
+                    "user_input": "none",
+                    "status": null
                 },
                 "al": {
-                    "expected input": {
+                    "expected_input": {
                         "upper_bound_assembly": "false",
                         "min_identity": "95.0",
                         "ambiguity_score": "0.99",
@@ -712,28 +770,28 @@
                         "use_all_alignments": "false",
                         "min_alignment": "65"
                     },
-                    "user input": 0,
-                    "status": false
+                    "user_input": "none",
+                    "status": null
                 },
                 "extensive_mis_size": {
-                    "expected input": "1000",
-                    "user input": 0,
-                    "status": false
+                    "expected_input": "1000",
+                    "user_input": "none",
+                    "status": null
                 },
                 "large": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 },
                 "in": {
-                    "expected input": {
+                    "expected_input": {
                         "inputs": {
                             "__class__": "ConnectedValue"
                         },
                         "__current_case__": 1,
                         "custom": "false"
                     },
-                    "user input": {
+                    "user_input": {
                         "custom": "false",
                         "__current_case__": 1,
                         "inputs": null
@@ -741,27 +799,30 @@
                     "status": false
                 },
                 "k_mer": {
-                    "expected input": {
+                    "expected_input": {
                         "k_mer_stats": "",
                         "__current_case__": 1
                     },
-                    "user input": 0,
-                    "status": false
+                    "user_input": "none",
+                    "status": null
                 },
                 "split_scaffolds": {
-                    "expected input": "false",
-                    "user input": "false",
+                    "expected_input": "false",
+                    "user_input": "false",
                     "status": true
                 },
                 "min_contig": {
-                    "expected input": "500",
-                    "user input": "500",
+                    "expected_input": "500",
+                    "user_input": "500",
                     "status": true
                 }
             },
-            "param_status": false,
-            "Number of mismatches": 16
+            "param_overall_status": false,
+            "number_of_mismatches": 2,
+            "total_number_of_param": 17
         },
-        "Inputs": {}
-    }
+        "inputs": {}
+    },
+    "number_of_steps": 10,
+    "number_of_wrong_steps": 0
 }
