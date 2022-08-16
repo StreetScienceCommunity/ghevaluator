@@ -8,7 +8,10 @@ from history_compare import compare
 import json
 
 # https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
+# https://usegalaxy.eu/u/berenice/h/galaxy-101
+# https://usegalaxy.eu/u/filipposz/h/classification-in-machine-learning
 def get_user_workflow(history_id, history_name):
+    # config file
     gi = GalaxyInstance(url='https://usegalaxy.eu/', key='D4XEpojvk877VKOAtCpu8H2Irdr3kol')
     datasets = gi.histories.show_history(history_id, True, False, True, None, 'dataset')
     job = []
@@ -37,6 +40,8 @@ def get_history():
 
 def get_standard_workflow():
     URL = "https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga"
+    # URL = "https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga"
+    # URL = "https://usegalaxy.eu/training-material/topics/statistics/tutorials/classification_machinelearning/workflows/ml_classification.ga"
     response = requests.get(URL)
     open("stdwf.ga", "wb").write(response.content)
     with open(os.path.join(sys.path[0], "stdwf.ga"), "r") as f:
@@ -58,7 +63,6 @@ def main():
     stdwf = get_standard_workflow()
     report = compare(usrwf, stdwf)
     generate_report_file(report)
-    # print(report)
 
 
 if __name__ == "__main__":

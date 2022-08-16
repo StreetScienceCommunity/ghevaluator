@@ -21,6 +21,15 @@ def compare(user_workflow, standard_workflow):
     return result
 
 
+def input_initialize():
+    inputdict = {
+        "expected_number_of_inputs": 0,
+        "user_number_of_inputs": 0,
+        "status": True
+    }
+    return inputdict
+
+
 def tool_state_initialize():
     emptydict = {
         "expected_value": 0,
@@ -56,7 +65,7 @@ def tool_version_initialize():
     }
     return vdict
 
-
+#not actually used
 def param_initialize():
     paramdict = {
         "expected_value": 0,
@@ -64,6 +73,15 @@ def param_initialize():
         "status": True
     }
     return paramdict
+
+
+def inpt_connection_initialize():
+    cntdict = {
+        "expected_input_source": [],
+        "user_input_source": [],
+        "status": True
+    }
+    return cntdict
 
 
 def splilt_id(s):
@@ -79,6 +97,19 @@ def splilt_id(s):
     return sdev, sid, sversion
 
 
+def count_input_steps(dict1, dict2):
+    std = 0
+    usr = 0
+    for key, value in dict1.items():
+        if value['name'] == "Input dataset":
+            std = std + 1
+    for key1, value2 in dict2.items():
+        if value2['name'] == "Data Fetch":
+            usr = usr + 1
+            value2['name'] = value2['name'] + "_used"
+    return std, usr
+
+
 def get_all_values(dict1, dict2):
     """
     Compare standard workflow with user workflow for multiple features, return a boolean representing the final result
@@ -88,18 +119,14 @@ def get_all_values(dict1, dict2):
     :param dict2:
     :return:
     """
-    all_tools_correct = False
-    all_parameters_correct = False
+    std_input, usr_input = count_input_steps(dict1, dict2)
     tool_mistake = 0
-    report = dict_initialize(len(dict1))
-
+    report = dict_initialize(len(dict1) - std_input)
     number_param = 0
     param_mistakes = 0
     step = 0
 
     for key, value in dict1.items():
-        # returns the name of the tool of each step.
-        print("Now we are checking Step: " + key)
         exist = False  # 1. "exist" - to check if a tool was used:
         id = True
         dev = True
@@ -107,121 +134,122 @@ def get_all_values(dict1, dict2):
         parameters = 0  # 2. "parameters" - to check if parameters were selected correctly:
 
         current_tool = value['name']
-        current_parameters = value['tool_state']
-        dict_for_thisloop = dict()
-        dict_for_thisloop['param_values'] = dict()
-        dict_for_thisloop['param_overall_status'] = True
+        if current_tool != "Input dataset":
+            std_inpt_list = get_input_id(value['input_connections'])
+            current_parameters = value['tool_state']
+            dict_for_thisloop = dict()
+            dict_for_thisloop['param_values'] = dict()
+            dict_for_thisloop['param_overall_status'] = True
 
-        tool_state = tool_state_initialize()
-        tool_id = tool_id_initialize()
-        tool_dev = tool_dev_initialize()
-        tool_version = tool_version_initialize()
+            tool_state = tool_state_initialize()
+            tool_id = tool_id_initialize()
+            tool_dev = tool_dev_initialize()
+            tool_version = tool_version_initialize()
+            inpt_connect = inpt_connection_initialize()
 
-        tool_state['expected_value'] = current_tool
-        s_dev, s_id, s_version = splilt_id(value['tool_id'])
-        tool_id['expected_id'] = s_id
-        tool_dev['expected_dev'] = s_dev
-        tool_version['expected_version'] = s_version
+            tool_state['expected_value'] = current_tool
+            tool_dev['expected_dev'], tool_id['expected_id'], tool_version['expected_version'] = splilt_id(value['tool_id'])
 
-        for key1, value2 in dict2.items():
-            if current_tool == "Input dataset" and value2['name'] == "Data Fetch":
-                tool_state['user_value'] = value2['name']
-                u_dev, u_id, u_version = splilt_id(value2['tool_id'])
-                tool_id['user_id'] = u_id
-                tool_dev['user_dev'] = u_dev
-                tool_version['user_version'] = u_version
+            for key1, value2 in dict2.items():
+                if value2['name'] == current_tool:
+                    tool_state['user_value'] = value2['name']
+                    tool_dev['user_dev'], tool_id['user_id'], tool_version['user_version'] = splilt_id(value2['tool_id'])
+                    usr_inpt_list = get_input_id(value2['input_connections'])
+                    if tool_id['user_id'] != tool_id['expected_id']:
+                        id = False
+                    if tool_version['user_version'] != tool_version['expected_version']:
+                        version = False
+                    if tool_dev['user_dev'] != tool_dev['expected_dev']:
+                        dev = False
 
-                if u_id != s_id:
-                    id = False
-                if u_version != s_version:
-                    version = False
-                if u_dev != s_dev:
-                    dev = False
+                    value2['name'] = value2['name'] + "_used"
+                    exist = True
+                    parameters, tempd, number_param = check_parameters(current_parameters, value2['tool_state'],
+                                                                       dict_for_thisloop)
+                    dict_for_thisloop = tempd
+                    break
 
-                value2['name'] = value2['name'] + "_used"
-                exist = True
-                parameters, tempd, number_param = check_parameters(current_parameters, value2['tool_state'],
-                                                                   dict_for_thisloop)
-                dict_for_thisloop = tempd
-                break
-            if value2['name'] == current_tool:
-                tool_state['user_value'] = value2['name']
-                u_dev, u_id, u_version = splilt_id(value2['tool_id'])
-                tool_id['user_id'] = u_id
-                tool_dev['user_dev'] = u_dev
-                tool_version['user_version'] = u_version
+            if parameters != 0:
+                dict_for_thisloop['param_overall_status'] = False
+            param_mistakes = param_mistakes + parameters
+            dict_for_thisloop['number_of_mismatches'] = parameters
+            dict_for_thisloop['total_number_of_param'] = number_param
+            report['steps'][step]['parameters'] = dict_for_thisloop
 
-                if u_id != s_id:
-                    id = False
-                if u_version != s_version:
-                    version = False
-                if u_dev != s_dev:
-                    dev = False
+            # report the results of Tools
+            if exist:
+                if id:
+                    tool_id['status'] = True
+                if version:
+                    tool_version['status'] = True
+                if dev:
+                    tool_dev['status'] = True
+            else:
+                tool_mistake = tool_mistake + 1
+                tool_state['status'] = False
 
-                value2['name'] = value2['name'] + "_used"
-                exist = True
-                parameters, tempd, number_param = check_parameters(current_parameters, value2['tool_state'],
-                                                                   dict_for_thisloop)
-                dict_for_thisloop = tempd
-                break
+            report['steps'][step]['tool_used'] = tool_state
+            report['steps'][step]['tool_id'] = tool_id
+            report['steps'][step]['tool_dev'] = tool_dev
+            report['steps'][step]['tool_version'] = tool_version
 
-        if parameters != 0:
-            dict_for_thisloop['param_overall_status'] = False
-        param_mistakes = param_mistakes + parameters
-        dict_for_thisloop['number_of_mismatches'] = parameters
-        dict_for_thisloop['total_number_of_param'] = number_param
-        report[step]['parameters'] = dict_for_thisloop
+            for x in std_inpt_list:
+                if -1 < x < std_input:
+                    inpt_connect['expected_input_source'].append("datasets")
+                else:
+                    try:
+                        discard1,idtemp,discard2 = splilt_id(dict1[str(x)]['tool_id'])
+                        inpt_connect['expected_input_source'].append(idtemp)
+                    except:
+                        pass
+            for y in usr_inpt_list:
+                if -1 < y < std_input:
+                    inpt_connect['user_input_source'].append("datasets")
+                else:
+                    try:
+                        discard3, idtemp1, discard4 = splilt_id(dict2[str(y)]['tool_id'])
+                        inpt_connect['user_input_source'].append(idtemp1)
+                    except:
+                        pass
+            report['steps'][step]['inputs_connection'] = inpt_connect
+            step = step + 1
 
-        # report the results of Tools
-        if exist:
-            all_tools_correct = True
-            if id:
-                tool_id['status'] = True
-            if version:
-                tool_version['status'] = True
-            if dev:
-                tool_dev['status'] = True
-        else:
-            print("Tool( " + current_tool + " ) was NOT used.")
-            tool_mistake = tool_mistake + 1
-            tool_state['status'] = False
-            all_tools_correct = False
-
-        report[step]['tool_used'] = tool_state
-        report[step]['tool_id'] = tool_id
-        report[step]['tool_dev'] = tool_dev
-        report[step]['tool_version'] = tool_version
-        step = step + 1
-
-        # report the results of Parameters
-        if parameters == 0:
-            all_parameters_correct = True
-        else:
-            print("Parameters used in ( " + current_tool + " have " + str(parameters) + " mistakes")
-            all_parameters_correct = False
-
-    report['number_of_steps'] = len(dict1.keys())
+    report['data_inputs']['expected_number_of_inputs'] = std_input
+    report['data_inputs']['user_number_of_inputs'] = usr_input
+    report['data_inputs']['status'] = bool(std_input == usr_input)
+    report['number_of_steps'] = len(dict1.keys()) - std_input
     report['number_of_wrong_steps'] = tool_mistake
-
-    if all_tools_correct:
-        print("All Steps were carried out!")
-    if not all_parameters_correct:
-        print("There are some mistakes with parameters.")
 
     return report
 
 
+def get_input_id(unkw_dict):
+    ids = []
+    for key, item in unkw_dict.items():
+        if item is dict:
+            get_input_id(item)
+        else:
+            try:
+                ids.append(item['id'])
+            except:
+                ids.append(-1)
+    return ids
+
+
 def dict_initialize(nofsteps):
     newdict = dict()
+    innerdict = dict()
+    newdict['data_inputs'] = input_initialize()
     for i in range(nofsteps):
-        newdict[i] = {
+        innerdict[i] = {
             "tool_used": dict(),
             "tool_id": dict(),
             "tool_dev": dict(),
             "tool_version": dict(),
             "parameters": dict(),
-            "inputs": dict()
+            "inputs_connection": dict()
         }
+    newdict['steps'] = innerdict
     newdict['number_of_steps'] = 0
     newdict['number_of_wrong_steps'] = 0
     return newdict
@@ -255,7 +283,7 @@ def check_parameters(str1, str2, current_dict):
     for k in std_pr.keys():
         current_dict['param_values'][k] = {
             "expected_input": std_pr[k],
-            "user_input": "none",
+            "user_input": None,
             "status": False
         }
         if k in user_pr:
@@ -267,8 +295,6 @@ def check_parameters(str1, str2, current_dict):
                 count = count + 1
         else:
             current_dict['param_values'][k]["status"] = None
-            print("!!! parameter [" + k + "] does NOT exist in user inputs")
-
     return count, current_dict, total_param_tobechecked
 
 
