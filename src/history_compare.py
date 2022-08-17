@@ -4,14 +4,12 @@ import json
 
 def compare(user_workflow, standard_workflow):
     """
-    This function takes in the two workflows generated in the main.py,
-    and passes them into the function where the actual comparison happens.
-    Potentially, it will be linked to the yaml/json output for generating the report
-    next key what we would like to compare tool ID, version, parameter, inputs
-    Store the compare information (status, expected value, user value)
+    This function takes in the two workflows generated in the main.py and passes them into the function
+    where the actual comparison happens.
+
     :param user_workflow:
     :param standard_workflow:
-    :return: report (as a dictionary)
+    :return: report: dictionary
     """
 
     temp1 = standard_workflow['steps']
@@ -22,6 +20,9 @@ def compare(user_workflow, standard_workflow):
 
 
 def input_initialize():
+    """
+    initialize a dictionary template for the comparison results of data inputs
+    """
     inputdict = {
         "expected_number_of_inputs": 0,
         "user_number_of_inputs": 0,
@@ -31,6 +32,9 @@ def input_initialize():
 
 
 def tool_state_initialize():
+    """
+    initialize a dictionary template for the comparison results of name of the tool used in each step
+    """
     emptydict = {
         "expected_value": 0,
         "user_value": 0,
@@ -40,6 +44,9 @@ def tool_state_initialize():
 
 
 def tool_id_initialize():
+    """
+    initialize a dictionary template for the comparison results of the id of the tool used
+    """
     iddict = {
         "expected_id": 0,
         "user_id": 0,
@@ -49,6 +56,9 @@ def tool_id_initialize():
 
 
 def tool_dev_initialize():
+    """
+    initialize a dictionary template for the comparison results of developers of the tool used
+    """
     dvdict = {
         "expected_dev": 0,
         "user_dev": 0,
@@ -58,6 +68,9 @@ def tool_dev_initialize():
 
 
 def tool_version_initialize():
+    """
+    initialize a dictionary template for the comparison results of version of the tool used
+    """
     vdict = {
         "expected_version": 0,
         "user_version": 0,
@@ -65,17 +78,11 @@ def tool_version_initialize():
     }
     return vdict
 
-#not actually used
-def param_initialize():
-    paramdict = {
-        "expected_value": 0,
-        "user_value": 0,
-        "status": True
-    }
-    return paramdict
-
 
 def inpt_connection_initialize():
+    """
+    initialize a dictionary template for the comparison results of source of the input date to the tool used
+    """
     cntdict = {
         "expected_input_source": [],
         "user_input_source": [],
@@ -85,6 +92,12 @@ def inpt_connection_initialize():
 
 
 def splilt_id(s):
+    """
+    This function split the long tool id extracted from workflow into three subsections
+
+    :param s: "content_id" from workflow file
+    :return: sdev, sid, sversion: developer name, tool id name, tool version
+    """
     slist = str(s).split("/")
     if len(slist) >= 4:
         sdev = slist[2]
@@ -98,6 +111,12 @@ def splilt_id(s):
 
 
 def count_input_steps(dict1, dict2):
+    """
+    count the numbers of the input datasets in both the user workflow and standard workflow
+    :param dict1: standard workflow
+    :param dict2: user workflow
+    :return: std, usr: (int) resulting counts
+    """
     std = 0
     usr = 0
     for key, value in dict1.items():
@@ -112,12 +131,10 @@ def count_input_steps(dict1, dict2):
 
 def get_all_values(dict1, dict2):
     """
-    Compare standard workflow with user workflow for multiple features, return a boolean representing the final result
-    idea: for param! under each tool,  start a new dictionary{matched:xxx, mismached:xxx}, xxx is another
-    dictionary{std_param: usrparam(or empty if not found)}.
-    :param dict1:
-    :param dict2:
-    :return:
+    Compare standard workflow with user workflow for multiple features
+    :param dict1: standard workflow
+    :param dict2: user workflow
+    :return: report: the final report as a dictionary
     """
     std_input, usr_input = count_input_steps(dict1, dict2)
     tool_mistake = 0
@@ -224,6 +241,12 @@ def get_all_values(dict1, dict2):
 
 
 def get_input_id(unkw_dict):
+    """
+    recursive function looking for the id number in all formats of input connections
+
+    :param unkw_dict: unknown layers of length of input connections as a sub dictionary
+    :return: ids: a list of integers representing the input id numbers
+    """
     ids = []
     for key, item in unkw_dict.items():
         if item is dict:
@@ -237,6 +260,11 @@ def get_input_id(unkw_dict):
 
 
 def dict_initialize(nofsteps):
+    """
+    initialize the main structure of the report dictionary, to be filled with many sub dictionaries.
+    :param nofsteps: the number of steps in the standard workflow
+    :return: newdict: skeleton of the report dictionary
+    """
     newdict = dict()
     innerdict = dict()
     newdict['data_inputs'] = input_initialize()
@@ -255,25 +283,20 @@ def dict_initialize(nofsteps):
     return newdict
 
 
-def record_steps(dict_temp):
-    list_temp = []
-    for key, value in dict_temp.items():
-        list_temp.append(value['name'])
-    return list_temp
-
-
 def check_parameters(str1, str2, current_dict):
     """
     further compare the parameters between two matched tools used
-    a lot more details needed to be added here:
-    e.g. some differences in the format will result in a count as mistake, but they are actually the same
-      some values are set to as default in the newer version's of the tool, need to be excluded
-      input connections have different values naturally
+    Some small bugs to be fixed:
+    e.g. some differences in the format will result in a count as mistake, but they are actually the same.
+      some values are set to as default in the newer version's of the tool, right now this case sets status to null.
+      input connections have different values naturally.
 
-    :param current_dict:
-    :param str1:
-    :param str2:
-    :return: the number of the mismatches
+    :param current_dict: pre-initialized parameter dictionary holding information outside this function
+    :param str1: standard parameters
+    :param str2: user parameters
+    :return: count: numbers of mismatches
+    :return: current_dict: the parameter dictionary now filled with information of each parameter
+    :return: total_param_tobechecked: the total number of parameters
     """
     std_pr = json.loads(str1)
     user_pr = json.loads(str2)
@@ -297,30 +320,3 @@ def check_parameters(str1, str2, current_dict):
             current_dict['param_values'][k]["status"] = None
     return count, current_dict, total_param_tobechecked
 
-
-def check_if_exist(term, wf):
-    """
-    OLD function used to check if the current tool in standard workflow exists in user workflow
-    no longer in used, since it has been merged into the get_all_values.
-    for the simplicity of the codes, maybe I will change it back.
-
-    :param term:
-    :param wf:
-    :return: true or false
-    """
-    exist = False
-    for key, value in wf.items():
-        if term == "Input dataset" and value['name'] == "Data Fetch":
-            value['name'] = value['name'] + "_used"
-            exist = True
-            break
-        if value['name'] == term:
-            value['name'] = value['name'] + "_used"
-            exist = True
-            break
-    if exist:
-        print("Tool( " + term + " ) was used.")
-        return True
-    else:
-        print("Tool( " + term + " ) was NOT used.")
-        return False
