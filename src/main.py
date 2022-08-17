@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
-
+import argparse
 import requests
 from bioblend.galaxy import GalaxyInstance
 from history_compare import compare
@@ -27,8 +27,9 @@ def get_user_workflow(history_id, history_name):
     return userwf
 
 
-def get_history():
-    user_input = input("Pls enter a galaxy history link:")
+def get_history(usr_url):
+    # user_input = input("Pls enter a galaxy history link:")
+    user_input = usr_url
     history_name = user_input.split("/")[6]
     print("The name of the history you chose is: " + history_name)
     page_source = requests.get(user_input).text
@@ -56,7 +57,11 @@ def generate_report_file(report):
 
 
 def main():
-    his = get_history()
+    parser = argparse.ArgumentParser(description='This program takes in URL of user history link, outputs the report of the performance.')
+    parser.add_argument('url', help="Check a url for straight quotes", type=str)
+    results = parser.parse_args()
+    url = results.url
+    his = get_history(url)
     his_id = his[0]
     his_name = his[1]
     usrwf = get_user_workflow(his_id, his_name)
