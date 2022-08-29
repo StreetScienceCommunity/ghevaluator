@@ -113,6 +113,7 @@ def splilt_id(s):
 def count_input_steps(dict1, dict2):
     """
     count the numbers of the input datasets in both the user workflow and standard workflow
+
     :param dict1: standard workflow
     :param dict2: user workflow
     :return: std, usr: (int) resulting counts

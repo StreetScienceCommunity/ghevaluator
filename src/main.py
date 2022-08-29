@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+from pathlib import Path
 import sys
 import argparse
 import requests
@@ -10,25 +11,23 @@ import json
 # https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
 # https://usegalaxy.eu/u/berenice/h/galaxy-101
 # https://usegalaxy.eu/u/filipposz/h/classification-in-machine-learning
-def get_user_workflow(history_id, history_name):
+def get_user_workflow(history_id, history_name, apikey):
     """
     Use the inputted history id to extract a workflow using bioblend API
     :param history_id:
     :param history_name:
     :return: userwf: the workflow of user history in the dictionary format
     """
-    # config file
-    gi = GalaxyInstance(url='https://usegalaxy.eu/', key='D4XEpojvk877VKOAtCpu8H2Irdr3kol')
+    # config file to git.ignore, add specifications in the documentation
+    gi = GalaxyInstance(url='https://usegalaxy.eu/', key=apikey)
     datasets = gi.histories.show_history(history_id, True, False, True, None, 'dataset')
     job = []
     for dataset in datasets:
         info = gi.histories.show_dataset_provenance(history_id, dataset['id'], follow=False)
         job.append(info['job_id'])
-    # wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
-    #                                                 dataset_hids=None, dataset_collection_hids=None)
-    # workflow_id = wf['id']
-    workflow_id = '8fce485f316eb0ea'
-    print("The workflow Id is: " + workflow_id)
+    wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
+                                                    dataset_hids=None, dataset_collection_hids=None)
+    workflow_id = wf['id']
     userwf = gi.workflows.export_workflow_dict(workflow_id, version=None)
     return userwf
 
@@ -47,16 +46,14 @@ def get_history(usr_url):
     return history_id, history_name
 
 
-def get_standard_workflow():
+def get_standard_workflow(wf):
     """
     download workflow file via provided link(in the current case from a hardcoded droplist on the datanalyzer website)
 
     turns the workflow into a dictionary, as the standard to be compared with the user workflow
     :return: standardwf: standard workflow in the form of dictionary
     """
-    URL = "https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga"
-    # URL = "https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga"
-    # URL = "https://usegalaxy.eu/training-material/topics/statistics/tutorials/classification_machinelearning/workflows/ml_classification.ga"
+    URL = wf
     response = requests.get(URL)
     open("stdwf.ga", "wb").write(response.content)
     with open(os.path.join(sys.path[0], "stdwf.ga"), "r") as f:
@@ -65,14 +62,21 @@ def get_standard_workflow():
     return standardwf
 
 
-def generate_report_file(report):
+def generate_report_file(target_path, data):
     """
     conver the report dictionary into a JSON file
 
-    :param report: dictionary holding the information of the status of key features of user history
+    :param data: dictionary holding the information of the status of key features of user history
+    :param target_path: the desired output destination of the report file, input via argparse
     """
-    with open('report.json', 'w', encoding='utf-8') as f:
-        json.dump(report, f, ensure_ascii=False, indent=4)
+    if not os.path.exists(target_path):
+        try:
+            os.makedirs(target_path)
+        except Exception as e:
+            print(e)
+            raise
+    with open(os.path.join(target_path, 'report.json'), 'w') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 def main():
@@ -88,14 +92,20 @@ def main():
     The report dictionary then goes into generate_report_file function to be turned into a JSON file.
     """
     parser = argparse.ArgumentParser(description='This program takes in URL of user history link, outputs the report of the performance.')
-    parser.add_argument('url', help="Check a url for straight quotes", type=str)
+    parser.add_argument('history_url', help="Please input the URL to the user's history", type=str)
+    parser.add_argument('workflow_url', help="Please input the URL to the corresponding standard workflow", type=str)
+    parser.add_argument('apikey', help="Please input the Galaxy API key", type=str)
+    parser.add_argument('path', help="Please input the output path of the final report", type=Path)
     results = parser.parse_args()
-    url = results.url
+    url = results.history_url
+    workflow = results.workflow_url
+    apikey = results.apikey
+    path = results.path
     his_id, his_name = get_history(url)
-    usrwf = get_user_workflow(his_id, his_name)
-    stdwf = get_standard_workflow()
+    usrwf = get_user_workflow(his_id, his_name, apikey)
+    stdwf = get_standard_workflow(workflow)
     report = compare(usrwf, stdwf)
-    generate_report_file(report)
+    generate_report_file(path, report)
 
 
 if __name__ == "__main__":
