@@ -25,9 +25,10 @@ def get_user_workflow(history_id, history_name, apikey):
     for dataset in datasets:
         info = gi.histories.show_dataset_provenance(history_id, dataset['id'], follow=False)
         job.append(info['job_id'])
-    wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
-                                                    dataset_hids=None, dataset_collection_hids=None)
-    workflow_id = wf['id']
+    # wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
+    #                                                 dataset_hids=None, dataset_collection_hids=None)
+    # workflow_id = wf['id']
+    workflow_id = '8fce485f316eb0ea'
     userwf = gi.workflows.export_workflow_dict(workflow_id, version=None)
     return userwf
 
@@ -95,7 +96,7 @@ def main():
     parser.add_argument('history_url', help="Please input the URL to the user's history", type=str)
     parser.add_argument('workflow_url', help="Please input the URL to the corresponding standard workflow", type=str)
     parser.add_argument('apikey', help="Please input the Galaxy API key", type=str)
-    parser.add_argument('path', help="Please input the output path of the final report", type=Path)
+    parser.add_argument('path', nargs="?", default=".", help="Please input the output path of the final report", type=Path)
     results = parser.parse_args()
     url = results.history_url
     workflow = results.workflow_url
