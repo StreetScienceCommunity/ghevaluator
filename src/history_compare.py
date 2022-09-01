@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import json
 
-
 def compare(user_workflow, standard_workflow):
     """
     This function takes in the two workflows generated in the main.py and passes them into the function
@@ -15,7 +14,6 @@ def compare(user_workflow, standard_workflow):
     temp1 = standard_workflow['steps']
     temp2 = user_workflow['steps']
     result = get_all_values(temp1, temp2)
-
     return result
 
 
@@ -97,6 +95,9 @@ def splilt_id(s):
 
     :param s: "content_id" from workflow file
     :return: sdev, sid, sversion: developer name, tool id name, tool version
+
+    >>> splilt_id("toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7")
+    "iuc", "multiqc", "1.7"
     """
     slist = str(s).split("/")
     if len(slist) >= 4:
@@ -132,45 +133,55 @@ def count_input_steps(dict1, dict2):
 
 def get_all_values(dict1, dict2):
     """
-    Compare standard workflow with user workflow for multiple features
+    Compare standard workflow with user workflow on multiple features
     :param dict1: standard workflow
     :param dict2: user workflow
     :return: report: the final report as a dictionary
     """
+    # first count the number of steps in both workflows
     std_input, usr_input = count_input_steps(dict1, dict2)
+    # initialize a few parameters to be emulated in the later steps
     tool_mistake = 0
-    report = dict_initialize(len(dict1) - std_input)
     number_param = 0
     param_mistakes = 0
     step = 0
+    # initialize an empty overall report dictionary based on the number of "true" steps (exclude data inputs steps)
+    report = dict_initialize(len(dict1) - std_input)
 
+    # loop through the standard workflow steps
     for key, value in dict1.items():
-        exist = False  # 1. "exist" - to check if a tool was used:
-        id = True
-        dev = True
-        version = True
-        parameters = 0  # 2. "parameters" - to check if parameters were selected correctly:
+        exist = False  # 1. "exist" - to keep a track on if a tool was used:
+        id = True   # 2. "id" - to keep a track on if the tool id matches
+        dev = True  # 3. "dev" - to keep a track on if the tool developer name matches
+        version = True  # 4. "dev" - to keep a track on if the tool versions match
+        parameters = 0  # 5. "parameters" - to keep a track on the mistakes made in parameters
 
         current_tool = value['name']
+        # start checking the current tool step, if it is not just a data input step
         if current_tool != "Input dataset":
-            std_inpt_list = get_input_id(value['input_connections'])
+            std_inpt_list = get_input_id(value['input_connections'])  # get and store the input connections' id numbers
             current_parameters = value['tool_state']
-            dict_for_thisloop = dict()
+            dict_for_thisloop = dict()  # initialize a temp holder dictionary for this loop (for the params)
             dict_for_thisloop['param_values'] = dict()
             dict_for_thisloop['param_overall_status'] = True
 
+            # initialize a series of sub dictionaries for different features of this current tool step
+            # (to be renewed for every step(new loop))
             tool_state = tool_state_initialize()
             tool_id = tool_id_initialize()
             tool_dev = tool_dev_initialize()
             tool_version = tool_version_initialize()
             inpt_connect = inpt_connection_initialize()
-
+            # set the standard values of the current tool in the dictionary
             tool_state['expected_value'] = current_tool
             tool_dev['expected_dev'], tool_id['expected_id'], tool_version['expected_version'] = splilt_id(value['tool_id'])
 
+            # have already stored most of the standard values, now we compare them with the user workflow in loops
             for key1, value2 in dict2.items():
-                if value2['name'] == current_tool:
+                if value2['name'] == current_tool:  # first check if the tools are the same
                     tool_state['user_value'] = value2['name']
+                    # if is the same tool, store the tool name,
+                    # and start further comparisons
                     tool_dev['user_dev'], tool_id['user_id'], tool_version['user_version'] = splilt_id(value2['tool_id'])
                     usr_inpt_list = get_input_id(value2['input_connections'])
                     if tool_id['user_id'] != tool_id['expected_id']:
@@ -180,13 +191,15 @@ def get_all_values(dict1, dict2):
                     if tool_dev['user_dev'] != tool_dev['expected_dev']:
                         dev = False
 
-                    value2['name'] = value2['name'] + "_used"
-                    exist = True
+                    value2['name'] = value2['name'] + "_used" # change a matched tool's name to prevent it to be matched again
+                    exist = True    # if the tools are not the same, exist will stay as false
+                    # check the parameters in a separate function
                     parameters, tempd, number_param = check_parameters(current_parameters, value2['tool_state'],
                                                                        dict_for_thisloop)
                     dict_for_thisloop = tempd
                     break
 
+            # now we are done with the compares, record the results into the dictionaries by checking the indicators
             if parameters != 0:
                 dict_for_thisloop['param_overall_status'] = False
             param_mistakes = param_mistakes + parameters
@@ -206,11 +219,13 @@ def get_all_values(dict1, dict2):
                 tool_mistake = tool_mistake + 1
                 tool_state['status'] = False
 
+            # record the temporal dictionaries into the final report
             report['steps'][step]['tool_used'] = tool_state
             report['steps'][step]['tool_id'] = tool_id
             report['steps'][step]['tool_dev'] = tool_dev
             report['steps'][step]['tool_version'] = tool_version
 
+            # record the input connection names based on the saved id lists into the report
             for x in std_inpt_list:
                 if -1 < x < std_input:
                     inpt_connect['expected_input_source'].append("datasets")
@@ -230,7 +245,7 @@ def get_all_values(dict1, dict2):
                     except:
                         pass
             report['steps'][step]['inputs_connection'] = inpt_connect
-            step = step + 1
+            step = step + 1  # add values to the current loop number to continue to the next loop
 
     report['data_inputs']['expected_number_of_inputs'] = std_input
     report['data_inputs']['user_number_of_inputs'] = usr_input
@@ -287,8 +302,7 @@ def dict_initialize(nofsteps):
 def check_parameters(str1, str2, current_dict):
     """
     further compare the parameters between two matched tools used
-    Some small bugs to be fixed:
-    e.g. some differences in the format will result in a count as mistake, but they are actually the same.
+    notes:
       some values are set to as default in the newer version's of the tool, right now this case sets status to null.
       input connections have different values naturally.
 
@@ -321,3 +335,7 @@ def check_parameters(str1, str2, current_dict):
             current_dict['param_values'][k]["status"] = None
     return count, current_dict, total_param_tobechecked
 
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

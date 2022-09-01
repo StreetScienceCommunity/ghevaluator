@@ -8,9 +8,6 @@ from bioblend.galaxy import GalaxyInstance
 from history_compare import compare
 import json
 
-# https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
-# https://usegalaxy.eu/u/berenice/h/galaxy-101
-# https://usegalaxy.eu/u/filipposz/h/classification-in-machine-learning
 def get_user_workflow(history_id, history_name, apikey):
     """
     Use the inputted history id to extract a workflow using bioblend API
@@ -25,10 +22,9 @@ def get_user_workflow(history_id, history_name, apikey):
     for dataset in datasets:
         info = gi.histories.show_dataset_provenance(history_id, dataset['id'], follow=False)
         job.append(info['job_id'])
-    # wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
-    #                                                 dataset_hids=None, dataset_collection_hids=None)
-    # workflow_id = wf['id']
-    workflow_id = '8fce485f316eb0ea'
+    wf = gi.workflows.extract_workflow_from_history(history_id, history_name + "visible=true", job,
+                                                    dataset_hids=None, dataset_collection_hids=None)
+    workflow_id = wf['id']
     userwf = gi.workflows.export_workflow_dict(workflow_id, version=None)
     return userwf
 
@@ -38,6 +34,9 @@ def get_history(usr_url):
     Parsing user input URL into parts of id number and name
     :param usr_url:
     :return: history_id, history_name:
+
+    >>> get_history("https://usegalaxy.eu/u/berenice/h/galaxy-101")
+    ('96db5bbbc9a86365', 'galaxy-101')
     """
     user_input = usr_url
     history_name = user_input.split("/")[6]
@@ -53,6 +52,7 @@ def get_standard_workflow(wf):
 
     turns the workflow into a dictionary, as the standard to be compared with the user workflow
     :return: standardwf: standard workflow in the form of dictionary
+
     """
     URL = wf
     response = requests.get(URL)
@@ -92,7 +92,7 @@ def main():
     These two dictionaries are passed into compare function, which returns a report in dictionary format.
     The report dictionary then goes into generate_report_file function to be turned into a JSON file.
     """
-    parser = argparse.ArgumentParser(description='This program takes in URL of user history link, outputs the report of the performance.')
+    parser = argparse.ArgumentParser(description='This program tests user history against standard tutorial steps, then generate a detailed report on the performance.')
     parser.add_argument('history_url', help="Please input the URL to the user's history", type=str)
     parser.add_argument('workflow_url', help="Please input the URL to the corresponding standard workflow", type=str)
     parser.add_argument('apikey', help="Please input the Galaxy API key", type=str)
@@ -109,8 +109,14 @@ def main():
     generate_report_file(path, report)
 
 
+def _test():
+    import doctest
+    doctest.testmod()
+
+
 if __name__ == "__main__":
     main()
+    _test()
 
 
 
