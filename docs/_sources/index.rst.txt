@@ -8,7 +8,7 @@ Welcome to Galaxy-History-Comparer's documentation!
 
 Start here:
 
-.. figure:: pic.jpg
+.. figure:: pic.png
    :scale: 50 %
    :alt: DNAnalyzer
 
@@ -16,7 +16,7 @@ Start here:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: ContentAs:
 
    modules
 
