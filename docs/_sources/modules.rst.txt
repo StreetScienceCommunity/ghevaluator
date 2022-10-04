@@ -1,4 +1,4 @@
-Galaxy-History-Test-Tool
+Galaxy-History-Comparer
 ========================
 
 .. toctree::
