@@ -6,6 +6,12 @@
 Welcome to Galaxy-History-Comparer's documentation!
 ====================================================
 
+.. figure:: pic.jpg
+   :scale: 50 %
+   :alt: DNAnalyzer
+
+   This is the caption of the figure (a simple paragraph).
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
