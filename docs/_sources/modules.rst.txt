@@ -1,8 +1,0 @@
-Galaxy-History-Comparer
-========================
-
-.. toctree::
-   :maxdepth: 4
-
-   history_compare
-   main
