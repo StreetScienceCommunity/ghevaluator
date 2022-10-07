@@ -32,9 +32,6 @@ Installation
 ```bash
 #  Install with pip
 pip install galaxy-history-comparer
-
-#  Install with bioconda
-conda install -c bioconda galaxy-history-comparer
 ```
 
 Tests
