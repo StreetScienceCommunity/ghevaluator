@@ -1,4 +1,4 @@
-# Galaxy-History-Comparer
+# Galaxy History Evaluator
 
 A command-line tool to assess user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. 
 More general use would be to simply compare two Galaxy histories.
@@ -12,7 +12,7 @@ in the history matches with the standards of the tutorial. In the later stage of
 tool can also be simply used on comparing any two Galaxy histories, for the purpose of finding the differences, and then
 to study the difference. 
  
-GHC(Galaxy History Comparer) is currently implemented as a command-line tool.
+Galaxy History Evaluator is currently implemented as a command-line tool.
 
 Usage
 -----
@@ -31,7 +31,7 @@ Installation
 
 ```bash
 #  Install with pip
-pip install galaxy-history-comparer
+pip install ghevaluator
 ```
 
 Tests
@@ -42,5 +42,5 @@ Tests
 
 Documentation
 --------------
-Documentation could be found here: https://chensy96.github.io/Galaxy-History-Comparer/
+Documentation could be found here: https://chensy96.github.io/Galaxy-History-Evaluator/
 
