@@ -1,8 +1,5 @@
 import unittest
-import sys, os
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
-from  history_compare import get_input_id
+from Galaxy-History-Evaluator.ghevaluator.history_compare import get_input_id
 
 def add_fish_to_aquarium(fish_list):
     if len(fish_list) > 10:
