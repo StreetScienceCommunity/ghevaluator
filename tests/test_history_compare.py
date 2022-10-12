@@ -136,3 +136,18 @@ class TestGetAllValues(unittest.TestCase):
      'tool_version':'1.1.0'}}
         temp = get_all_values(std, usr)
         self.assertTrue(temp['steps'][0]['tool_used']['expected_value'] == 'bedtools Intersect intervals')
+
+class TestDictInitialize(unittest.TestCase):
+    def test_dict_initialize(self):
+        actual = dict_initialize(1)
+        expected = "data_inputs"
+        self.assertIn(expected, actual)
+
+class TestCheckParameters(unittest.TestCase):
+    def test_check_parameters(self):
+        count, current_dict, total_param_tobechecked = check_parameters('{"complement": "", "count": "5", "infile": {"__class__": "RuntimeValue"}, "__page__": null}', \
+             '{"__input_ext": "tabular", "complement": "", "count": "5", "infile": null, "__page__": null}', \
+             {'param_values': {}, 'param_overall_status': True})
+        if count == 1 and "param_values" in current_dict and total_param_tobechecked == 4:
+            satisfied = TRUE
+        self.assertTrue(satisfied)
