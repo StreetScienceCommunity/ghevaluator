@@ -9,7 +9,7 @@ class TestGetHistory(unittest.TestCase):
 
 class TestGetStandardWorkflow(unittest.TestCase):
     def test_get_standard_workflow(self):
-        temp = get_standard_workflow("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")        actual = temp['name']
+        temp = get_standard_workflow("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")
         actual = temp['name']
         expected = "Find exons with the highest number of features"
         self.assertEqual(expected, actual)
