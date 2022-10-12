@@ -7,12 +7,6 @@ class TestGetHistory(unittest.TestCase):
         expected = ('96db5bbbc9a86365', 'galaxy-101')
         self.assertEqual(expected, actual)
 
-class TestGetStandardWorkflow(unittest.TestCase):
-    def test_get_standard_workflow(self):
-        temp = get_standard_workflow \
-            ("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")
-        self.assertTrue(temp['name'] == "Find exons with the highest number of features")
-
 class TestGenerateReportFile(unittest.TestCase):
     def test_generate_report_file(self):
         with open(os.path.join(sys.path[0], "report.json"), "r") as f: standardtemp = f.read()
