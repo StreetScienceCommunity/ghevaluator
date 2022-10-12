@@ -1,5 +1,7 @@
 import unittest
-from Galaxy-History-Evaluator.ghevaluator.history_compare import get_input_id
+import sys
+sys.path.append('/./ghevaluator')
+from history_compare import get_input_id
 
 def add_fish_to_aquarium(fish_list):
     if len(fish_list) > 10:
