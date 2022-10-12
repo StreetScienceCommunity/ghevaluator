@@ -36,7 +36,7 @@ class TestCompare(unittest.TestCase):
      'tool_version':'1.1.0'}}}
         temp = compare(std, usr)
         actual = temp['number_of_steps']
-        expected = 2
+        expected = 1
         self.assertEqual(actual, expected)
 
 
