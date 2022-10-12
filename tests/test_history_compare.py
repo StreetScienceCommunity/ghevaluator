@@ -149,5 +149,5 @@ class TestCheckParameters(unittest.TestCase):
              '{"__input_ext": "tabular", "complement": "", "count": "5", "infile": null, "__page__": null}', \
              {'param_values': {}, 'param_overall_status': True})
         if count == 1 and "param_values" in current_dict and total_param_tobechecked == 4:
-            satisfied = TRUE
+            satisfied = True
         self.assertTrue(satisfied)
