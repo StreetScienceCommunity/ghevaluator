@@ -1,6 +1,11 @@
 import unittest
-import sys
 from history_compare import *
+
+class TestGetInputId(unittest.TestCase):
+    def test_get_input_id(self):
+        actual = get_input_id({'input1': {'id': 1, 'output_name': 'output1'}, 'input2': {'id': 22, 'output_name': 'output2'}})
+        expected = [1, 22]
+        self.assertEqual(actual, expected)
 
 class TestCompare(unittest.TestCase):
     def test_compare(self):
@@ -36,12 +41,41 @@ class TestCompare(unittest.TestCase):
      'tool_version':'1.1.0'}}}
         temp = compare(std, usr)
         actual = temp['number_of_steps']
-        expected = 1
+        expected = 2
         self.assertEqual(actual, expected)
 
+class TestInputInitialize(unittest.TestCase):
+    def test_input_initialize(self):
+        actual = input_initialize()
+        expected = {'expected_number_of_inputs': 0, 'user_number_of_inputs': 0, 'status': True}
+        self.assertEqual(actual, expected)
 
-class TestGetInputId(unittest.TestCase):
-    def test_get_input_id(self):
-        actual = get_input_id({'input1': {'id': 1, 'output_name': 'output1'}, 'input2': {'id': 22, 'output_name': 'output2'}})
-        expected = [1, 22]
+class TestToolStateInitialize(unittest.TestCase):
+    def test_tool_state_initialize(self):
+        actual = tool_state_initialize()
+        expected = {'expected_value': 0, 'user_value': 0, 'status': True}
+        self.assertEqual(actual, expected)
+
+class TestIdInitialize(unittest.TestCase):
+    def test_input_initialize(self):
+        actual = tool_id_initialize()
+        expected = {'expected_id': 0, 'user_id': 0, 'status': False}
+        self.assertEqual(actual, expected)
+
+class TestToolDevInitialize(unittest.TestCase):
+    def test_tool_dev_initialize(self):
+        actual = tool_dev_initialize()
+        expected = {'expected_dev': 0, 'user_dev': 0, 'status': False}
+        self.assertEqual(actual, expected)
+
+class TestToolVersionInitialize(unittest.TestCase):
+    def test_tool_version_initialize(self):
+        actual = tool_version_initialize()
+        expected = {'expected_version': 0, 'user_version': 0, 'status': False}
+        self.assertEqual(actual, expected)
+
+class TestInptConnectionInitialize(unittest.TestCase):
+    def test_inpt_connection_initialize(self):
+        actual = inpt_connection_initialize()
+        expected = {'expected_input_source': [], 'user_input_source': [], 'status': True}
         self.assertEqual(actual, expected)
