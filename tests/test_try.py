@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.append('/./ghevaluator')
+sys.path.append('/../ghevaluator')
 from history_compare import get_input_id
 
 def add_fish_to_aquarium(fish_list):
