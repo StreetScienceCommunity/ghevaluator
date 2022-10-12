@@ -9,10 +9,9 @@ class TestGetHistory(unittest.TestCase):
 
 class TestGetStandardWorkflow(unittest.TestCase):
     def test_get_standard_workflow(self):
-        temp = get_standard_workflow("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")
-        actual = temp['name']
-        expected = "Find exons with the highest number of features"
-        self.assertEqual(expected, actual)
+        temp = get_standard_workflow \
+            ("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")
+        self.assertTrue(temp['name'] == "Find exons with the highest number of features")
 
 class TestGenerateReportFile(unittest.TestCase):
     def test_generate_report_file(self):
