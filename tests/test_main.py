@@ -9,10 +9,10 @@ class TestGetHistory(unittest.TestCase):
 
 class TestGenerateReportFile(unittest.TestCase):
     def test_generate_report_file(self):
-        with open(os.path.join(sys.path[0], "report.json"), "r") as f: standardtemp = f.read()
-        actual = standardtemp
-        expected = "data_inputs"
-        self.assertIn(expected, actual)
+        temp = generate_report_file("wrong path", "data")
+        actual = temp
+        expected = "wrong path"
+        self.assertEqual(expected, actual)
 
 class TestGetUserWorkflow(unittest.TestCase):
     def test_get_user_workflow(self):
