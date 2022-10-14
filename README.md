@@ -37,7 +37,8 @@ pip install ghevaluator
 Tests
 -----
 
--   Tests via `$ doctests` (within modules).
+-   Tests via `$ unittests` 
+-   Automaticlly run the test everytime someone pushes or commits to the git repository
 
 
 Documentation
