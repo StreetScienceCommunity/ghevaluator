@@ -83,14 +83,12 @@ def generate_report_file(target_path, data):
     >>> "data_inputs" in standardtemp
     True
     """
-    if not os.path.exists(target_path):
-        try:
-            os.makedirs(target_path)
-        except Exception as e:
-            print(e)
-            raise
-    with open(os.path.join(target_path, 'report.json'), 'w') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    if os.path.exists(target_path):
+        with open(os.path.join(target_path, 'report.json'), 'w') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+    else:
+        exception = "wrong path"
+        return exception
 
 
 def main():
