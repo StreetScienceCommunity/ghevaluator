@@ -1,6 +1,6 @@
 import unittest
 # from history_compare import *
-from Galaxy-History-Evaluator.ghevaluator.history_compare import *
+from Galaxy-History-Evaluator.ghevaluator.history_compare.py import *
  
 
 class TestGetInputId(unittest.TestCase):
