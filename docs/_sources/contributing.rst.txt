@@ -1,0 +1,55 @@
+Contributing
+=======================
+This page is intended to let anyone who is interested in contributing to the further development of this tool to know what kind of contribution is needed and how to contribute.
+
+
+------------
+
+**Development Process and Current Status**
+
+The original motivation for this tool is to provide a way for student, who creates his or her new history after learning tutorials on Galaxy training, to evaluate the performance without an instructor. In the later stage of the tool's development, we realized this tool can also be simply used on comparing any two Galaxy histories, for the purpose of finding the differences, and then to study the difference.
+
+For the original motivation mentioned above, this tool is implemented on DNAnalyzer: https://github.com/StreetScienceCommunity/DNAnalyzer
+for evaluating user's results' in the BeerDEcoded part:
+
+.. image:: pic1.png
+   :scale: 80 %
+   :align: center
+
+The usage of the tool is roughly designed as followed:
+
+.. image:: pic2.png
+   :scale: 70 %
+   :align: center
+
+Currently, this tool still compares one history against one workflow, in order to realize the goal of simply comparing two Galaxy histories, some modifications needed to be done. For examples, the structure of the final report has to be alterd, because currently the tool only tracks which parts of the workflow are missing/wrong in the history. In another word, the workflow is the standard, so if there is a value existing in the history, but not in the workflow, this difference will not be recorded.
+
+
+------------
+
+**How to contribute:**
+
+Feel free to clone, fork, open pull requests or issues to the git repository: https://github.com/chensy96/Galaxy-History-Evaluator
+
+
+
+------------
+
+**Testing**
+
+Tests via `unittests` automaticlly run the test for every existing function everytime someone pushes or commits to the git repository.
+After adding new function or making changes to an existing function, make sure to make changes to the unittest files under the test folder.
+
+To test the overall functionalities of this tool, please refer to the Usage page, and simply use the provided argument variables to run the program.
+
+
+------------
+
+**Documentation**
+
+This documentation is generated using Sphinx. If you wish to make changes to the documentation, you may refer to the usages of Sphinx: https://www.sphinx-doc.org/en/master/. If the source code has been changed, then you need to run `sphinx-apidoc` to generate new `rst` files. For simply changing the words, pictures and pages, you need to alter the corresponding `rst` files and run `make html` to generate the new documentation.
+
+
+.. toctree::
+   :maxdepth: 2
+

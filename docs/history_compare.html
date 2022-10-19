@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>history_compare module &#8212; Galaxy History Evaluator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+    <link rel="prev" title="Galaxy-History-Evaluator" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-history_compare">
+<span id="history-compare-module"></span><h1>history_compare module<a class="headerlink" href="#module-history_compare" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.check_parameters">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">check_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">std_param_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usr_param_str2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.check_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Further compare the parameters between two matched tools used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current_dict</strong> – pre-initialized parameter dictionary to hold the comparison results of parameters.</p></li>
+<li><p><strong>std_param_str</strong> – standard parameters</p></li>
+<li><p><strong>usr_param_str2</strong> – user parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>count</strong>, <strong>current_dict</strong>, <strong>total_param_tobechecked</strong>: numbers of mismatches, the parameter dictionary now filled with information of each parameter, the total number of parameters</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.compare">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_workflow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_workflow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function takes in the two workflows generated in the main.py and passes them into the function
+where the actual comparison happens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_workflow</strong> – the user workflow generated from user history in the main.py</p></li>
+<li><p><strong>standard_workflow</strong> – the standard workflow downloaded via URL in the main.py</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>report</strong>: a dictionary</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.count_input_steps">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">count_input_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">std_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usr_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.count_input_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the numbers of the input datasets in both the user workflow and standard workflow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>std_input</strong> – standard workflow</p></li>
+<li><p><strong>usr_input</strong> – user workflow</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>std</strong>, <strong>usr</strong>: counting results for both the standard and user workflow</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.dict_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">dict_initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nofsteps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.dict_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the main structure of the report dictionary, to be filled with many sub dictionaries for each desired
+feature of the final report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nofsteps</strong> – the number of steps in the standard workflow</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>newdict</strong>: skeleton of the report dictionary</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.get_all_values">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">get_all_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">std_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usr_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.get_all_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare standard workflow with user workflow based on multiple features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>std_dict</strong> – standard workflow</p></li>
+<li><p><strong>usr_dict</strong> – user workflow</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>report</strong>: the final report as a dictionary</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.get_input_id">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">get_input_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unkw_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.get_input_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursive function looking for the id number inside the part of the dictionary of the input connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unkw_dict</strong> – unknown layers of length of input connections as a sub dictionary</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>ids</strong>: a list of integers representing the input id numbers</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.inpt_connection_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">inpt_connection_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.inpt_connection_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of source of the input date to the tool used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p><strong>cntdict</strong>: initialized empty input connection dictionary</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.input_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">input_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.input_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of data inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputdict</strong>: initialized empty input dictionary</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.splilt_id">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">splilt_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.splilt_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function split the long tool id extracted from workflow into three subsections</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> – “content_id” from workflow file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>sdev</strong>, <strong>sid</strong>, <strong>sversion</strong>: developer name, tool id name, tool version</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.tool_dev_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">tool_dev_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.tool_dev_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of developers of the tool used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dvdict</strong>: initialized empty tool developer dictionary</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.tool_id_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">tool_id_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.tool_id_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of the id of the tool used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p><strong>iddict</strong>: initialized empty tool id dictionary</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.tool_state_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">tool_state_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.tool_state_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of name of the tool used in each step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p><strong>emptydict</strong>: initialized empty tool state dictionary</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="history_compare.tool_version_initialize">
+<span class="sig-prename descclassname"><span class="pre">history_compare.</span></span><span class="sig-name descname"><span class="pre">tool_version_initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#history_compare.tool_version_initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a dictionary template for the comparison results of version of the tool used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vdict</strong>: initialized empty tool version dictionary</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Galaxy History Evaluator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Galaxy-History-Evaluator</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">history_compare module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Galaxy-History-Evaluator</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">Galaxy-History-Evaluator</a></li>
+      <li>Next: <a href="main.html" title="next chapter">main module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Siyu Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/history_compare.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
