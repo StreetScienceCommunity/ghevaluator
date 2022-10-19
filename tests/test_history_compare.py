@@ -1,5 +1,5 @@
 import unittest
-from history_compare import *
+from data.history_compare import *
  
 
 class TestGetInputId(unittest.TestCase):
