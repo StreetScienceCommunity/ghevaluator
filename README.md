@@ -1,18 +1,9 @@
 # Galaxy History Evaluator
 
 A command-line tool to assess user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. 
-More general use would be to simply compare two Galaxy histories.
+More general use would be to simply compare two Galaxy histories. The Galaxy history is a feature on Galaxy, the bio-data processing platform, which tracks the record of steps of data analysis (including input datasets, tools used, parameters etc.).
 The end result is a json file reporting the differences between two histories/workflows.
 
-# Motivation
-The Galaxy history is a feature on Galaxy, the bio-data processing platform, which tracks the record of steps of data
-analysis (including input datasets, tools used, parameters etc.). The original motivation for this tool is to provide a 
-way for student, who creates his or her new history after learning tutorials on Galaxy training, to assess if the steps
-in the history matches with the standards of the tutorial. In the later stage of the tool's development, we realized this
-tool can also be simply used on comparing any two Galaxy histories, for the purpose of finding the differences, and then
-to study the difference. 
- 
-Galaxy History Evaluator is currently implemented as a command-line tool.
 
 Usage
 -----
