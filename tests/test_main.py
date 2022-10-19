@@ -1,7 +1,5 @@
 import unittest
-import sys
-sys.path.insert(1, '/ghevaluator/') 
-from main import *
+from data.main import *
 
 class TestGetHistory(unittest.TestCase):
     def test_get_history(self):
