@@ -2,7 +2,7 @@ import unittest
 # from data.main import *
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../ghevaluator'))
+sys.path.append("../ghevaluator")
 from main import *
 
 class TestGetHistory(unittest.TestCase):
