@@ -3,48 +3,16 @@ import json
 
 
 def compare(user_workflow, standard_workflow):
-    """
-    This function takes in the two workflows generated in the main.py and passes them into the function
+    """This function takes in the two workflows generated in the main.py and passes them into the function
     where the actual comparison happens.
 
-    :param user_workflow:
-    :param standard_workflow:
-    :return: report: dictionary
-
-    >>> std = {'a_galaxy_workflow': 'true', 'name': 'galaxy-101visible=true', 'steps': {'0': {'content_id': \
-    '__DATA_FETCH__', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Data Fetch', 'tool_id': '__DATA_FETCH__'}\
-    , '1': { 'content_id': '__DATA_FETCH__', 'id': 1, 'input_connections': {}, 'inputs': [], 'name': 'Data Fetch', \
-    'tool_id': '__DATA_FETCH__'}, '2': { 'content_id': \
-    'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'id': 2, 'input_connections': {'inputA':\
-    {'id': 1, 'output_name': 'output0'}, 'reduce_or_iterate|inputB': {'id': 1, 'output_name': 'output1'}}, 'inputs': []\
-    , 'label': None, 'name': 'bedtools Intersect intervals', 'outputs': [{'name': 'output', 'type': 'input'}], \
-    'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'tool_state': \
-    '{"__input_ext": "input", "bed": "false", "header": "false", "split": "false", "strand": "", "__page__": null}',\
-    'tool_version': '2.30.0'}, '3': { 'content_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0',\
-     'id': 3, 'input_connections': {'in_file': {'id': 2, 'output_name': 'output'}}, 'inputs': [], 'label': None, \
-     'name': 'Datamash', 'outputs': [{'name': 'out_file', 'type': 'tabular'}], \
-     'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0', 'tool_state': \
-     '{"__input_ext": "bed", "grouping": "4", "ignore_case": "false", "__rerun_remap_job_id__": null}', \
-     'tool_version':'1.1.0'}}}
-    >>> usr = {'a_galaxy_workflow': 'true', 'name': 'Find exons with the highest number', 'steps': {'0': {'content_id': \
-    'None', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Input dataset', 'tool_id': 'None'}\
-    , '1': { 'content_id': 'None', 'id': 1, 'input_connections': {}, 'inputs': [], 'name': 'Input dataset', \
-    'tool_id': 'None'}, '2': { 'content_id': \
-    'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'id': 2, 'input_connections': {'inputA':\
-    {'id': 0, 'output_name': 'output'}, 'reduce_or_iterate|inputB': {'id': 1, 'output_name': 'output'}}, 'inputs': []\
-    , 'label': None, 'name': 'bedtools Intersect intervals', 'outputs': [{'name': 'output', 'type': 'input'}], \
-    'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'tool_state': \
-    '{"__input_ext": "bed", "bed": "false", "header": "false", "split": "false", "strand": "", "__page__": null}',\
-    'tool_version': '2.30.0'}, '3': { 'content_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0',\
-     'id': 3, 'input_connections': {'in_file': {'id': 2, 'output_name': 'output'}}, 'inputs': [], 'label': None, \
-     'name': 'Datamash', 'outputs': [{'name': 'out_file', 'type': 'tabular'}], \
-     'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0', 'tool_state': \
-     '{"__input_ext": "bed", "grouping": "4", "ignore_case": "false", "__rerun_remap_job_id__": null}', \
-     'tool_version':'1.1.0'}}}
-    >>> temp = compare(std,usr)
-    >>> temp['number_of_steps'] == 2
-    True
+    :param user_workflow: the user workflow generated from user history in the main.py
+    :param standard_workflow: the standard workflow downloaded via URL in the main.py
+    :return: **report**: a dictionary
+    
+    |
     """
+
     temp1 = standard_workflow['steps']
     temp2 = user_workflow['steps']
     result = get_all_values(temp1, temp2)
@@ -52,12 +20,13 @@ def compare(user_workflow, standard_workflow):
 
 
 def input_initialize():
-    """
-    initialize a dictionary template for the comparison results of data inputs
+    """Initialize a dictionary template for the comparison results of data inputs
 
-    >>> input_initialize()
-    {'expected_number_of_inputs': 0, 'user_number_of_inputs': 0, 'status': True}
+    :return: **inputdict**: initialized empty input dictionary
+
+    |
     """
+
     inputdict = {
         "expected_number_of_inputs": 0,
         "user_number_of_inputs": 0,
@@ -67,11 +36,11 @@ def input_initialize():
 
 
 def tool_state_initialize():
-    """
-    initialize a dictionary template for the comparison results of name of the tool used in each step
+    """Initialize a dictionary template for the comparison results of name of the tool used in each step
 
-    >>> tool_state_initialize()
-    {'expected_value': 0, 'user_value': 0, 'status': True}
+    :return: **emptydict**: initialized empty tool state dictionary
+
+	|
     """
     emptydict = {
         "expected_value": 0,
@@ -82,11 +51,11 @@ def tool_state_initialize():
 
 
 def tool_id_initialize():
-    """
-    initialize a dictionary template for the comparison results of the id of the tool used
+    """Initialize a dictionary template for the comparison results of the id of the tool used
 
-    >>> tool_id_initialize()
-    {'expected_id': 0, 'user_id': 0, 'status': False}
+    :return: **iddict**: initialized empty tool id dictionary
+
+	|
     """
     iddict = {
         "expected_id": 0,
@@ -97,11 +66,11 @@ def tool_id_initialize():
 
 
 def tool_dev_initialize():
-    """
-    initialize a dictionary template for the comparison results of developers of the tool used
+    """Initialize a dictionary template for the comparison results of developers of the tool used
 
-    >>> tool_dev_initialize()
-    {'expected_dev': 0, 'user_dev': 0, 'status': False}
+    :return: **dvdict**: initialized empty tool developer dictionary
+
+    |
     """
     dvdict = {
         "expected_dev": 0,
@@ -112,11 +81,11 @@ def tool_dev_initialize():
 
 
 def tool_version_initialize():
-    """
-    initialize a dictionary template for the comparison results of version of the tool used
+    """Initialize a dictionary template for the comparison results of version of the tool used
 
-    >>> tool_version_initialize()
-    {'expected_version': 0, 'user_version': 0, 'status': False}
+    :return: **vdict**: initialized empty tool version dictionary
+
+    |
     """
     vdict = {
         "expected_version": 0,
@@ -127,11 +96,11 @@ def tool_version_initialize():
 
 
 def inpt_connection_initialize():
-    """
-    initialize a dictionary template for the comparison results of source of the input date to the tool used
+    """Initialize a dictionary template for the comparison results of source of the input date to the tool used
 
-    >>> inpt_connection_initialize()
-    {'expected_input_source': [], 'user_input_source': [], 'status': True}
+    :return: **cntdict**: initialized empty input connection dictionary
+
+	|
     """
     cntdict = {
         "expected_input_source": [],
@@ -142,14 +111,13 @@ def inpt_connection_initialize():
 
 
 def splilt_id(s):
-    """
-    This function split the long tool id extracted from workflow into three subsections
+    """This function split the long tool id extracted from workflow into three subsections
 
     :param s: "content_id" from workflow file
-    :return: sdev, sid, sversion: developer name, tool id name, tool version
 
-    >>> splilt_id("toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7")
-    ('iuc', 'multiqc', '1.7')
+    :return: **sdev**, **sid**, **sversion**: developer name, tool id name, tool version
+
+    |
     """
     slist = str(s).split("/")
     if len(slist) >= 4:
@@ -164,27 +132,15 @@ def splilt_id(s):
 
 
 def count_input_steps(std_input, usr_input):
-    """
-    count the numbers of the input datasets in both the user workflow and standard workflow
+    """Count the numbers of the input datasets in both the user workflow and standard workflow
 
     :param std_input: standard workflow
     :param usr_input: user workflow
-    :return: std, usr: (int) resulting counts
 
-    >>> std_case = {'0': {'id': 0, 'input_connections': {}, 'inputs': [{'description': '', 'name': 'Exons'}], 'label':\
-    'Exons', 'name': 'Input dataset', 'outputs': [], 'tool_id': None, 'tool_state': '{"optional": false}',\
-    'tool_version': None, 'type': 'data_input'}, '1': {'id': 1, 'input_connections': {}, 'inputs': [{'description': '',\
-    'name': 'Features'}], 'label': 'Features', 'name': 'Input dataset', 'outputs': [], 'tool_id': None, 'tool_state':\
-     '{"optional": false}', 'tool_version': None, 'type': 'data_input'}}
-    >>> usr_case = {'0': {'id': 0, 'input_connections': {}, 'inputs': [{'description': '', 'name': 'Exons'}], 'label':\
-     'Exons', 'name': 'Data Fetch', 'outputs': [], 'tool_id': None, 'tool_state': '{"optional": false}', 'tool_version'\
-     : None, 'type': 'data_input'}, '1': {'id': 1, 'input_connections': {}, 'inputs': [{'description': '', 'name': \
-     'Features'}], 'label': 'Features', 'name': 'Data Fetch', 'outputs': [], 'tool_id': None, 'tool_state': \
-     '{"optional\": false}', 'tool_version': None, 'type': 'data_input'}}
-    >>> count_input_steps(std_case, usr_case)
-    (2, 2)
+    :return: **std**, **usr**: counting results for both the standard and user workflow
+
+	|
     """
-
     std = 0
     usr = 0
     for key, value in std_input.items():
@@ -199,45 +155,14 @@ def count_input_steps(std_input, usr_input):
 
 
 def get_all_values(std_dict, usr_dict):
-    """
-    Compare standard workflow with user workflow on multiple features
+    """Compare standard workflow with user workflow based on multiple features
+
     :param std_dict: standard workflow
     :param usr_dict: user workflow
-    :return: report: the final report as a dictionary
 
-    >>> std = {'0': {'content_id': \
-    '__DATA_FETCH__', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Data Fetch', 'tool_id': '__DATA_FETCH__'}\
-    , '1': { 'content_id': '__DATA_FETCH__', 'id': 1, 'input_connections': {}, 'inputs': [], 'name': 'Data Fetch', \
-    'tool_id': '__DATA_FETCH__'}, '2': { 'content_id': \
-    'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'id': 2, 'input_connections': {'inputA':\
-    {'id': 1, 'output_name': 'output0'}, 'reduce_or_iterate|inputB': {'id': 1, 'output_name': 'output1'}}, 'inputs': []\
-    , 'label': None, 'name': 'bedtools Intersect intervals', 'outputs': [{'name': 'output', 'type': 'input'}], \
-    'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'tool_state': \
-    '{"__input_ext": "input", "bed": "false", "header": "false", "split": "false", "strand": "", "__page__": null}',\
-    'tool_version': '2.30.0'}, '3': { 'content_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0',\
-     'id': 3, 'input_connections': {'in_file': {'id': 2, 'output_name': 'output'}}, 'inputs': [], 'label': None, \
-     'name': 'Datamash', 'outputs': [{'name': 'out_file', 'type': 'tabular'}], \
-     'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0', 'tool_state': \
-     '{"__input_ext": "bed", "grouping": "4", "ignore_case": "false", "__rerun_remap_job_id__": null}', \
-     'tool_version':'1.1.0'}}
-    >>> usr = {'0': {'content_id': \
-    'None', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Input dataset', 'tool_id': 'None'}\
-    , '1': { 'content_id': 'None', 'id': 1, 'input_connections': {}, 'inputs': [], 'name': 'Input dataset', \
-    'tool_id': 'None'}, '2': { 'content_id':\
-    'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'id': 2, 'input_connections': {'inputA':\
-    {'id': 0, 'output_name': 'output'}, 'reduce_or_iterate|inputB': {'id': 1, 'output_name': 'output'}}, 'inputs': []\
-    , 'label': None, 'name': 'bedtools Intersect intervals', 'outputs': [{'name': 'output', 'type': 'input'}], \
-    'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.30.0', 'tool_state': \
-    '{"__input_ext": "bed", "bed": "false", "header": "false", "split": "false", "strand": "", "__page__": null}',\
-    'tool_version': '2.30.0'}, '3': { 'content_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0',\
-     'id': 3, 'input_connections': {'in_file': {'id': 2, 'output_name': 'output'}}, 'inputs': [], 'label': None, \
-     'name': 'Datamash', 'outputs': [{'name': 'out_file', 'type': 'tabular'}], \
-     'tool_id': 'toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.1.0', 'tool_state': \
-     '{"__input_ext": "bed", "grouping": "4", "ignore_case": "false", "__rerun_remap_job_id__": null}', \
-     'tool_version':'1.1.0'}}
-    >>> temp = get_all_values(std, usr)
-    >>> temp['steps'][0]['tool_used']['expected_value'] == 'bedtools Intersect intervals'
-    True
+    :return: **report**: the final report as a dictionary
+
+	|
     """
 
     # first count the number of steps in both workflows
@@ -361,14 +286,13 @@ def get_all_values(std_dict, usr_dict):
 
 
 def get_input_id(unkw_dict):
-    """
-    recursive function looking for the id number in all formats of input connections
+    """Recursive function looking for the id number inside the part of the dictionary of the input connections.
 
     :param unkw_dict: unknown layers of length of input connections as a sub dictionary
-    :return: ids: a list of integers representing the input id numbers
 
-    >>> get_input_id({'input1': {'id': 1, 'output_name': 'output1'}, 'input2': {'id': 22, 'output_name': 'output2'}})
-    [1, 22]
+    :return: **ids**: a list of integers representing the input id numbers
+
+	|
     """
     ids = []
     for key, item in unkw_dict.items():
@@ -383,13 +307,14 @@ def get_input_id(unkw_dict):
 
 
 def dict_initialize(nofsteps):
-    """
-    initialize the main structure of the report dictionary, to be filled with many sub dictionaries.
+    """Initialize the main structure of the report dictionary, to be filled with many sub dictionaries for each desired
+    feature of the final report.
+    
     :param nofsteps: the number of steps in the standard workflow
-    :return: newdict: skeleton of the report dictionary
+    
+    :return: **newdict**: skeleton of the report dictionary
 
-    >>> "data_inputs" in dict_initialize(1)
-    True
+	|
     """
     newdict = dict()
     innerdict = dict()
@@ -410,29 +335,15 @@ def dict_initialize(nofsteps):
 
 
 def check_parameters(std_param_str, usr_param_str2, current_dict):
-    """
-    further compare the parameters between two matched tools used
-    notes:
-      some values are set to as default in the newer version's of the tool, right now this case sets status to null.
-      input connections have different values naturally.
+    """Further compare the parameters between two matched tools used
 
-    :param current_dict: pre-initialized parameter dictionary holding information outside this function
+    :param current_dict: pre-initialized parameter dictionary to hold the comparison results of parameters.
     :param std_param_str: standard parameters
     :param usr_param_str2: user parameters
-    :return: count: numbers of mismatches
-    :return: current_dict: the parameter dictionary now filled with information of each parameter
-    :return: total_param_tobechecked: the total number of parameters
 
-    >>> count, current_dict, total_param_tobechecked  = check_parameters\
-    ('{"complement": "", "count": "5", "infile": {"__class__": "RuntimeValue"}, "__page__": null}',\
-     '{"__input_ext": "tabular", "complement": "", "count": "5", "infile": null, "__page__": null}', \
-     {'param_values': {}, 'param_overall_status': True})
-    >>> count == 1
-    True
-    >>> "param_values" in current_dict
-    True
-    >>> total_param_tobechecked == 4
-    True
+    :return: **count**, **current_dict**, **total_param_tobechecked**: numbers of mismatches, the parameter dictionary now filled with information of each parameter, the total number of parameters
+	
+	|
     """
     std_pr = json.loads(std_param_str)
     user_pr = json.loads(usr_param_str2)
