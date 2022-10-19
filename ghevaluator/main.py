@@ -9,17 +9,14 @@ from history_compare import compare
 import json
 
 def get_user_workflow(history_id, history_name, apikey):
-    """
-    Use the inputted history id to extract a workflow using bioblend API
-    :param history_id:
-    :param history_name:
-    :return: userwf: the workflow of user history in the dictionary format
+    """Use the inputted history id to extract a workflow using bioblend API
 
-    >>> "a_galaxy_workflow" in get_user_workflow("96db5bbbc9a86365", "galaxy-101", "D4XEpojvk877VKOAtCpu8H2Irdr3kol")
-    True
-    """
+    :param history_id: The id of the user's history
+    :param history_name: The name of the user's history
+    :return: **userwf**: the workflow of user history in the dictionary format
 
-    # config file to git.ignore, add specifications in the documentation
+    |
+    """
     gi = GalaxyInstance(url='https://usegalaxy.eu/', key=apikey)
     datasets = gi.histories.show_history(history_id, True, False, True, None, 'dataset')
     job = []
@@ -34,13 +31,13 @@ def get_user_workflow(history_id, history_name, apikey):
 
 
 def get_history(usr_url):
-    """
-    Parsing user input URL into parts of id number and name
-    :param usr_url:
-    :return: history_id, history_name:
+    """Parsing user input URL into parts of id number and name
 
-    >>> get_history("https://usegalaxy.eu/u/berenice/h/galaxy-101")
-    ('96db5bbbc9a86365', 'galaxy-101')
+    :param usr_url: link to the user's history which is intented to be evaluated.
+
+    :return: **history_name**, **history_id**: the extracted name of the history, the extracted history id
+
+    |
     """
     user_input = usr_url
     history_name = user_input.split("/")[6]
@@ -51,16 +48,14 @@ def get_history(usr_url):
 
 
 def get_standard_workflow(wf_url):
-    """
-    download workflow file via provided link
+    """Download workflow file via provided link.
+    turns the workflow into a dictionary, as the standard to be compared with the user workflow.
 
-    turns the workflow into a dictionary, as the standard to be compared with the user workflow
-    :return: standardwf: standard workflow in the form of dictionary
+    :param wf_url: link to the standard workflow file
 
-    >>> temp = get_standard_workflow\
-    ("https://usegalaxy.eu/training-material/topics/introduction/tutorials/galaxy-intro-101/workflows/galaxy-intro-101-workflow.ga")
-    >>> temp['name'] == "Find exons with the highest number of features"
-    True
+    :return: **standardwf**: standard workflow in the form of dictionary
+
+    |
     """
     URL = wf_url
     response = requests.get(URL)
@@ -72,15 +67,12 @@ def get_standard_workflow(wf_url):
 
 
 def generate_report_file(target_path, data):
-    """
-    convert the report dictionary into a JSON file
+    """Convert the report dictionary into a JSON file
 
     :param data: dictionary holding the information of the status of key features of user history
     :param target_path: the desired output destination of the report file, input via argparse
 
-    >>> with open(os.path.join(sys.path[0], "report.json"), "r") as f: standardtemp = f.read()
-    >>> "data_inputs" in standardtemp
-    True
+    |
     """
     if not os.path.exists(target_path):
         try:
@@ -95,13 +87,22 @@ def generate_report_file(target_path, data):
 def main():
     """
     The main function
+    
+    This function serves as the driver and connection between all major parts of the program:
+    It does four things:
 
-    This function only accept command line input in the format of URL(link to the user history)
-    pass it to get_history function to get history id and name, which are then pass into get_uset_workflow function
-    to generate the user workflow stored as a dictionary.
-    get_standard_workflow gets standard workflow as dictionary from URLs.
-    These two dictionaries are passed into compare function, which returns a report in dictionary format.
-    The report dictionary then goes into generate_report_file function to be turned into a JSON file.
+    1. Take in 4 parameters via ArgumentParser.
+    2. Call different fundtions to process the parameters, and to generate two workflows.
+    3. Pass the two workflows to the compare function in history_compare.py
+    4. Call generate_report_file function to output the final report.
+  
+    :param history_url: the link to the user's history, which is intended to be tested.
+    :param workflow_url: the link to the workflow, corresponding to the history, which serves as the standard.
+    :param apikey: a Galaxy API key obtained prehand
+    :param path: the desired system path to output the final report
+    :return: **final report**: a JSON file
+
+    |
     """
     parser = argparse.ArgumentParser(description='This program tests user history against standard tutorial steps, then generate a detailed report on the performance.')
     parser.add_argument('history_url', help="the URL to the user's history", type=str)
@@ -118,12 +119,7 @@ def main():
     stdwf = get_standard_workflow(workflow)
     report = compare(usrwf, stdwf)
     generate_report_file(path, report)
-
-
-def _test():
-    import doctest
-    doctest.testmod()
-
+ 
 
 if __name__ == "__main__":
     main()
