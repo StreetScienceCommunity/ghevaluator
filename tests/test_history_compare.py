@@ -1,5 +1,5 @@
 import unittest
-from data.history_compare import *
+from ghevaluator.history_compare import *
  
 
 class TestGetInputId(unittest.TestCase):
