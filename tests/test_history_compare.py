@@ -1,6 +1,4 @@
 import unittest
-import sys
-sys.path.insert(1, '/Galaxy-History-Evaluator/ghevaluator/') 
 from history_compare import *
  
 
