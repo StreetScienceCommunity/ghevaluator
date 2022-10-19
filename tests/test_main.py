@@ -1,6 +1,7 @@
 import unittest
-# from main import *
-from Galaxy History Evaluator.ghevaluator.main import *
+import sys
+sys.path.append('../')
+from main import *
 
 class TestGetHistory(unittest.TestCase):
     def test_get_history(self):
