@@ -1,5 +1,7 @@
 import unittest
-from history_compare import *
+# from history_compare import *
+from Galaxy-History-Evaluator.ghevaluator.history_compare import *
+ 
 
 class TestGetInputId(unittest.TestCase):
     def test_get_input_id(self):
