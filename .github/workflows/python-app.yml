@@ -33,7 +33,7 @@ jobs:
         pytest
     - name: Intergration Test
       run: |
-        for t in ghevaluator/*.py; do
+        for t in intergration_test/*.py; do
           echo "Running $t ..."
           python $t
         done
