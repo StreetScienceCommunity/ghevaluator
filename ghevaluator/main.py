@@ -5,7 +5,7 @@ import sys
 import argparse
 import requests
 from bioblend.galaxy import GalaxyInstance
-from ghevaluator.history_compare import compare
+from history_compare import compare
 import json
 
 def get_user_workflow(history_id, history_name, apikey):
