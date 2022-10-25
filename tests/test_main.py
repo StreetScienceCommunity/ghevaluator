@@ -1,5 +1,9 @@
 import unittest
-from ghevaluator.main import *
+import os.path
+import sys
+tdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\ghevaluator'))
+sys.path.insert(1, tdir)
+from main import *
 
 class TestGetHistory(unittest.TestCase):
     def test_get_history(self):
