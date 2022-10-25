@@ -12,4 +12,4 @@ subprocess.check_call(
      'D4XEpojvk877VKOAtCpu8H2Irdr3kol'])
 assert os.path.exists('./report.json')
 
-#  'ghevaluator/main.py',
+
