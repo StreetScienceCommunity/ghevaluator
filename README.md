@@ -28,8 +28,9 @@ pip install ghevaluator
 Tests
 -----
 
--   Tests via `$ unittests` 
--   Automaticlly run the test everytime someone pushes or commits to the git repository
+- Unit Tests via `$ unittests` 
+- Functional Test via `$ subprocess` 
+- Automatically run the test everytime someone pushes or commits to the git repository
 
 
 Documentation
