@@ -1,5 +1,6 @@
 import os
 import subprocess
+import os.path
 tdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\ghevaluator'))
 sys.path.insert(1, tdir)
 
