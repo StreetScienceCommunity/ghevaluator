@@ -2,13 +2,12 @@ import unittest
 from ghevaluator.history_compare import *
  
 
-class TestGetInputId(unittest.TestCase):
+class TestHistCompareMethods(unittest.TestCase):
     def test_get_input_id(self):
         actual = get_input_id({'input1': {'id': 1, 'output_name': 'output1'}, 'input2': {'id': 22, 'output_name': 'output2'}})
         expected = [1, 22]
         self.assertEqual(actual, expected)
 
-class TestCompare(unittest.TestCase):
     def test_compare(self):
         std = {'a_galaxy_workflow': 'true', 'name': 'galaxy-101visible=true', 'steps': {'0': {'content_id': \
     '__DATA_FETCH__', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Data Fetch', 'tool_id': '__DATA_FETCH__'}\
@@ -45,49 +44,41 @@ class TestCompare(unittest.TestCase):
         expected = 2
         self.assertEqual(actual, expected)
 
-class TestInputInitialize(unittest.TestCase):
     def test_input_initialize(self):
         actual = input_initialize()
         expected = {'expected_number_of_inputs': 0, 'user_number_of_inputs': 0, 'status': True}
         self.assertEqual(actual, expected)
 
-class TestToolStateInitialize(unittest.TestCase):
     def test_tool_state_initialize(self):
         actual = tool_state_initialize()
         expected = {'expected_value': 0, 'user_value': 0, 'status': True}
         self.assertEqual(actual, expected)
 
-class TestIdInitialize(unittest.TestCase):
     def test_input_initialize(self):
         actual = tool_id_initialize()
         expected = {'expected_id': 0, 'user_id': 0, 'status': False}
         self.assertEqual(actual, expected)
 
-class TestToolDevInitialize(unittest.TestCase):
     def test_tool_dev_initialize(self):
         actual = tool_dev_initialize()
         expected = {'expected_dev': 0, 'user_dev': 0, 'status': False}
         self.assertEqual(actual, expected)
 
-class TestToolVersionInitialize(unittest.TestCase):
     def test_tool_version_initialize(self):
         actual = tool_version_initialize()
         expected = {'expected_version': 0, 'user_version': 0, 'status': False}
         self.assertEqual(actual, expected)
 
-class TestInptConnectionInitialize(unittest.TestCase):
     def test_inpt_connection_initialize(self):
         actual = inpt_connection_initialize()
         expected = {'expected_input_source': [], 'user_input_source': [], 'status': True}
         self.assertEqual(actual, expected)
 
-class TestSpliltId(unittest.TestCase):
     def test_splilt_id(self):
         actual = splilt_id("toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7")
         expected = ('iuc', 'multiqc', '1.7')
         self.assertEqual(actual, expected)
 
-class TestCountInputSteps(unittest.TestCase):
     def test_count_input_steps(self):
         std_case = {'0': {'id': 0, 'input_connections': {}, 'inputs': [{'description': '', 'name': 'Exons'}], 'label':\
     'Exons', 'name': 'Input dataset', 'outputs': [], 'tool_id': None, 'tool_state': '{"optional": false}',\
@@ -103,7 +94,6 @@ class TestCountInputSteps(unittest.TestCase):
         expected = (2, 2)
         self.assertEqual(actual, expected)
 
-class TestGetAllValues(unittest.TestCase):
     def test_get_all_values(self):
         std = {'0': {'content_id': \
     '__DATA_FETCH__', 'id': 0, 'input_connections': {},'inputs': [], 'name': 'Data Fetch', 'tool_id': '__DATA_FETCH__'}\
@@ -138,13 +128,11 @@ class TestGetAllValues(unittest.TestCase):
         temp = get_all_values(std, usr)
         self.assertTrue(temp['steps'][0]['tool_used']['expected_value'] == 'bedtools Intersect intervals')
 
-class TestDictInitialize(unittest.TestCase):
     def test_dict_initialize(self):
         actual = dict_initialize(1)
         expected = "data_inputs"
         self.assertIn(expected, actual)
 
-class TestCheckParameters(unittest.TestCase):
     def test_check_parameters(self):
         count, current_dict, total_param_tobechecked = check_parameters('{"complement": "", "count": "5", "infile": {"__class__": "RuntimeValue"}, "__page__": null}', \
              '{"__input_ext": "tabular", "complement": "", "count": "5", "infile": null, "__page__": null}', \
