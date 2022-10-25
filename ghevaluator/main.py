@@ -58,11 +58,8 @@ def get_standard_workflow(wf_url):
     |
     """
     URL = wf_url
-    response = requests.get(URL)
-    open("stdwf.ga", "wb").write(response.content)
-    with open(os.path.join(sys.path[0], "stdwf.ga"), "r") as f:
-        standardtemp = f.read()
-    standardwf = json.loads(standardtemp)
+    r = requests.get(URL)
+    standardwf = r.json()
     return standardwf
 
 
