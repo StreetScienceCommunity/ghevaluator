@@ -33,7 +33,7 @@ jobs:
         pytest
     - name: Intergration Test
       run: |
-        echo "{path}" >> $GITHUB_PATH
+        echo "{intergration_test/}" >> $GITHUB_PATH
         for t in intergration_test/ghevaluator_command.py; do
           echo "Running $t ..."
           python $t
