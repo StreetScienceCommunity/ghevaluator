@@ -35,5 +35,5 @@ jobs:
       run: |
         for t in intergration_test/ghevaluator_command.py; do
           echo "Running $t ..."
-          intergration_test/ python $t
+          python $t
         done
