@@ -3,11 +3,11 @@ import json
 
 
 def compare(user_workflow, standard_workflow):
-    """This function takes in the two workflows generated in the ghevaluator.py and passes them into the function
+    """This function takes in the two workflows generated in the ghevaluator_main.py and passes them into the function
     where the actual comparison happens.
 
-    :param user_workflow: the user workflow generated from user history in the ghevaluator.py
-    :param standard_workflow: the standard workflow downloaded via URL in the ghevaluator.py
+    :param user_workflow: the user workflow generated from user history in the ghevaluator_main.py
+    :param standard_workflow: the standard workflow downloaded via URL in the ghevaluator_main.py
     :return: **report**: a dictionary
     
     |
