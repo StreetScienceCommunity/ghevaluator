@@ -40,23 +40,24 @@
 <hr class="docutils" />
 <p><strong>Development Process and Current Status</strong></p>
 <p>The original motivation for this tool is to provide a way for student, who creates his or her new history after learning tutorials on Galaxy training, to evaluate the performance without an instructor. In the later stage of the tool’s development, we realized this tool can also be simply used on comparing any two Galaxy histories, for the purpose of finding the differences, and then to study the difference.</p>
-<p>For the original motivation mentioned above, this tool is implemented on DNAnalyzer: <a class="reference external" href="https://github.com/StreetScienceCommunity/DNAnalyzer">https://github.com/StreetScienceCommunity/DNAnalyzer</a>
+<p>For the original motivation mentioned above, this tool is used on DNAnalyzer:
+<a class="reference external" href="https://github.com/StreetScienceCommunity/DNAnalyzer">https://github.com/StreetScienceCommunity/DNAnalyzer</a>
 for evaluating user’s results’ in the BeerDEcoded part:</p>
-<a class="reference internal image-reference" href="pic1.png"><img alt="pic1.png" class="align-center" src="pic1.png" /></a>
-<p>The usage of the tool is roughly designed as followed:</p>
-<a class="reference internal image-reference" href="pic2.png"><img alt="pic2.png" class="align-center" src="pic2.png" /></a>
 <p>Currently, this tool still compares one history against one workflow, in order to realize the goal of simply comparing two Galaxy histories, some modifications needed to be done. For examples, the structure of the final report has to be alterd, because currently the tool only tracks which parts of the workflow are missing/wrong in the history. In another word, the workflow is the standard, so if there is a value existing in the history, but not in the workflow, this difference will not be recorded.</p>
 <hr class="docutils" />
 <p><strong>How to contribute:</strong></p>
 <p>Feel free to clone, fork, open pull requests or issues to the git repository: <a class="reference external" href="https://github.com/chensy96/Galaxy-History-Evaluator">https://github.com/chensy96/Galaxy-History-Evaluator</a></p>
 <hr class="docutils" />
 <p><strong>Testing</strong></p>
-<p>Tests via <cite>unittests</cite> automaticlly run the test for every existing function everytime someone pushes or commits to the git repository.
-After adding new function or making changes to an existing function, make sure to make changes to the unittest files under the test folder.</p>
-<p>To test the overall functionalities of this tool, please refer to the Usage page, and simply use the provided argument variables to run the program.</p>
+<p>Test for individual function is done via <cite>unittests</cite>. It automatically runs the tests everytime someone pushes or commits to the git repository.
+After adding new function or making changes to an existing function, make sure to make changes to the unittest files under the <cite>test</cite> folder.</p>
+<p>Test for the overall functionality and the intergration of the tool is done via <cite>subprocess</cite> under the <cite>intergration test</cite> folder. It also runs automatically everytime someone pushes or commits to the git repository.</p>
 <hr class="docutils" />
 <p><strong>Documentation</strong></p>
-<p>This documentation is generated using Sphinx. If you wish to make changes to the documentation, you may refer to the usages of Sphinx: <a class="reference external" href="https://www.sphinx-doc.org/en/master/">https://www.sphinx-doc.org/en/master/</a>. If the source code has been changed, then you need to run <cite>sphinx-apidoc</cite> to generate new <cite>rst</cite> files. For simply changing the words, pictures and pages, you need to alter the corresponding <cite>rst</cite> files and run <cite>make html</cite> to generate the new documentation.</p>
+<p>This documentation is generated using Sphinx.
+If you wish to make descriptional changes to the documentation, you just need to alter the <cite>rst</cite> files in the <cite>docs/src/</cite> folder, and then run <cite>make html</cite> to generate the new documentation. Pushing the new documentation to the <cite>docs/</cite> folder in Git Repository will trigger the Git Page to update automatically.</p>
+<p>Also, if the source code(the key python modules) has been changed, then you need to run <cite>sphinx-apidoc</cite> to generate new <cite>rst</cite> files, before doing the steps described above.</p>
+<p>For further usages of Sphinx, you may refer to documentation here: <a class="reference external" href="https://www.sphinx-doc.org/en/master/">https://www.sphinx-doc.org/en/master/</a></p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
