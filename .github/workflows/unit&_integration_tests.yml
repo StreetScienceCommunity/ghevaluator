@@ -31,9 +31,9 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Intergration Test
+    - name: Integration Test
       run: |
-        for t in intergration_test/ghevaluator_command.py; do
+        for t in integration_test/ghevaluator_command.py; do
           echo "Running $t ..."
           python $t
         done
