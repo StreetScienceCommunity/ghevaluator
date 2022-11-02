@@ -37,43 +37,90 @@
             
   <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
-<p>To use this tool, four inputs need to be pass in the command line.</p>
+<p>To use this tool, four inputs need to be passd in the command line.</p>
 <p>The general structure of the tool, starting with the four inputs on the left, is shown on the graph:</p>
 <a class="reference internal image-reference" href="pic3.png"><img alt="pic3.png" class="align-center" src="pic3.png" /></a>
-<p>Here are some example inputs, feel free to try out the tool with them):</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<p><strong>How to get the required inputs:</strong></p>
+<p>(In the showcase below, some example inputs are included, feel free to try out the tool with them)</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <ol class="arabic simple">
-<li><p>URL to history (the history to be assessed)</p></li>
+<li><p>URL to history (the history to be evaluated):</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>URL to workflow (the standard workflow/ extracted workflow from another history)</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga
-</pre></div>
-</div>
-<ol class="arabic" start="3">
-<li><p>Galaxy API Key:</p>
-<blockquote>
-<div><p>To get your own Galaxy API key, follow the instructions below: <a class="reference external" href="https://training.galaxyproject.org/training-material/faqs/galaxy/preferences_admin_api_key.html">https://training.galaxyproject.org/training-material/faqs/galaxy/preferences_admin_api_key.html</a></p>
-</div></blockquote>
-</li>
-<li><p>Output Path: (to the root folder of ghevaluator)</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ .
-</pre></div>
-</div>
-<p>To run the program, after installation, simply run the command like followed:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ghevaluator <span class="s2">&quot;https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen&quot;</span> <span class="s2">&quot;https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga&quot;</span> <span class="s2">&quot;Dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>
-
-<span class="o">(</span>remember to replace the last argument with your own API key!<span class="o">)</span>
+<p>Firstly, you need to have already created a Galaxy history. Then you need to follow the instructions here to publish your history and get the <cite>Share Link</cite> URL which we need for the argument <cite>-u</cite>: <a class="reference external" href="https://training.galaxyproject.org/training-material/faqs/galaxy/histories_sharing.html">https://training.galaxyproject.org/training-material/faqs/galaxy/histories_sharing.html</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ -u https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>The sample final report is of this structure:</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>URL to workflow (the standard workflow)</p></li>
+</ol>
+<p>To find the link to the standard workflow, you need to go on the Galaxy Training website: <a class="reference external" href="https://training.galaxyproject.org/">https://training.galaxyproject.org/</a>, and then find the corresponding tutorial to your history.</p>
+<p>In the tutorial page, you will find the standard workflow (as circled red):</p>
+<a class="reference internal image-reference" href="stdwf.png"><img alt="stdwf.png" class="align-center" src="stdwf.png" /></a>
+<p>Click into it, then right click on the .ga file to copy the link address. This is the URL we need.</p>
+<a class="reference internal image-reference" href="stdwf1.png"><img alt="stdwf1.png" class="align-center" src="stdwf1.png" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ -w https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Galaxy API Key:</p></li>
+</ol>
+<p>To get your own Galaxy API key, follow the instructions here: <a class="reference external" href="https://training.galaxyproject.org/training-material/faqs/galaxy/preferences_admin_api_key.html">https://training.galaxyproject.org/training-material/faqs/galaxy/preferences_admin_api_key.html</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ -a Dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxjsdas
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Output Path:</p></li>
+</ol>
+<p>This argument is actually optional, as if there is no value given, the final report will be put to the root folder of ghevaluator, but if you want to specify a path, the example input should be like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ -p <span class="s2">&quot;path/somepath/&quot;</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>To run the program after installation</strong>, simply run the command like followed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ghevaluator -u &lt;url to history&gt; -w &lt;url to standard workflow&gt; -a &lt;api key&gt;
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<p><strong>The sample final report is of the structure shown on the diagram below:</strong></p>
 <a class="reference internal image-reference" href="pic4.png"><img alt="pic4.png" class="align-center" src="pic4.png" /></a>
 <div class="toctree-wrapper compound">
 </div>
