@@ -102,10 +102,10 @@ def main():
     |
     """
     parser = argparse.ArgumentParser(description='This program tests user history against standard tutorial steps, then generate a detailed report on the performance.')
-    parser.add_argument('history_url', help="the URL to the user's history", type=str)
-    parser.add_argument('workflow_url', help="the URL to the corresponding standard workflow", type=str)
-    parser.add_argument('apikey', help="the Galaxy API key", type=str)
-    parser.add_argument('path', nargs="?", default=".", help="Please input the output path of the final report", type=Path)
+    parser.add_argument('-u','--history_url', help="the URL to the user's history", type=str, required=True)
+    parser.add_argument('-w','--workflow_url', help="the URL to the corresponding standard workflow", type=str, required=True)
+    parser.add_argument('-a','--apikey', help="the Galaxy API key", type=str, required=True)
+    parser.add_argument('-p','--path', nargs="?", default=".", help="Please input the output path of the final report", type=Path)
     results = parser.parse_args()
     url = results.history_url
     workflow = results.workflow_url
