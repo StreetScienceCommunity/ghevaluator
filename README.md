@@ -1,21 +1,22 @@
 # Galaxy History Evaluator
 
-A command-line tool to assess user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. 
+A command-line tool to evaluate user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. 
 More general use would be to simply compare two Galaxy histories. The Galaxy history is a feature on Galaxy, the bio-data processing platform, which tracks the record of steps of data analysis (including input datasets, tools used, parameters etc.).
 The end result is a json file reporting the differences between two histories/workflows.
 
 
 Usage
 -----
-The command line takes four inputs
-- url to history (the history to be assessed)
-- url to workflow (the standard workflow/ extracted workflow from another history)
-- Galaxy API Key
-- Output Path (default to root)
+The command line takes four inputs:
 
-Sample input: "https://usegalaxy.eu/u/siyu_chen/h/assemblyhands-onsiyu-chen" 
-"https://usegalaxy.eu/training-material/topics/assembly/tutorials/general-introduction/workflows/assembly-general-introduction.ga" 
-"Dxxxxxxxxxxxxxxxxxxxxxxxl"
+-u:  url to history (the history to be evaluated)
+
+-w:  url to workflow (the standard workflow/extracted workflow from another history)
+
+-a:  Galaxy API Key
+
+-p:  Output Path (default to root)
+
 
 Installation
 -----
