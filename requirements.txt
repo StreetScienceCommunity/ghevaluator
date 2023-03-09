@@ -1,3 +1,6 @@
-bioblend==1.0.0
-requests==2.28.1
-setuptools==56.0.0
+bioblend
+requests
+setuptools
+flake8
+pytest
+Sphinx
