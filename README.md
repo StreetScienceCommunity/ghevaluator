@@ -1,40 +1,69 @@
-# Galaxy History Evaluator
+Galaxy History Evaluator
+========================
 
-A command-line tool to evaluate user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. 
-More general use would be to simply compare two Galaxy histories. The Galaxy history is a feature on Galaxy, the bio-data processing platform, which tracks the record of steps of data analysis (including input datasets, tools used, parameters etc.).
-The end result is a json file reporting the differences between two histories/workflows.
+Galaxy History Evaluator or `ghevaluator` is a command-line Python tool to compare Galaxy histories to a template workflow and generate a JSON report file.
 
+## Context
 
-Usage
------
-The command line takes four inputs:
+[Galaxy](https://galaxyproject.org/) is an **open, web-based platform for data-intensive computational research**.
 
--u:  url to history (the history to be evaluated)
+When running their data analysis, Galaxy users create histories storing their data, but also the steps of the data analysis, i.e. the tools used, their versions and parameters.
 
--w:  url to workflow (the standard workflow/extracted workflow from another history)
+Galaxy is also used for training where participants follow step-by-step tutorials, stored in Galaxy histories. At the end, participants might want to know if they followed correctly the tutorial and instructors might need to evaluate histories to give feedback and deliver certificates.
+**Evaluating histories manually can be painful and error prone**.
 
--a:  Galaxy API Key
+Galaxy History Evaluator aims to solve this by providing a command-line tool to compare a Galaxy history to a templare workflow and generate a report in JSON with difference between the provided history and the expected workflow.
 
--p:  Output Path (default to root)
+## Usage
 
-
-Installation
------
+Galaxy History Evaluator can be used via command-line
 
 ```bash
-#  Install with pip
-pip install ghevaluator
+$ ghevaluator --help
+usage: ghevaluator [-h] -u HISTORY_URL -w WORKFLOW_URL -a APIKEY [-o OUTPUT]
+
+Compare a Galaxy history to a template workflow and generate a JSON report file
+
+options:
+  -h, --help            show this help message and exit
+  -u HISTORY_URL, --history_url HISTORY_URL
+                        URL to Galaxy history
+  -w WORKFLOW_URL, --workflow_url WORKFLOW_URL
+                        URL to template workflow
+  -a APIKEY, --apikey APIKEY
+                        Galaxy API key
+  -o OUTPUT, --output OUTPUT
+                        Path to output report
 ```
 
-Tests
------
+## Installation
 
-- Unit Tests via `$ unittests` 
-- Functional Test via `$ subprocess` 
+Galaxy History Evaluator can be installed with pip:
+
+```bash
+$ pip install ghevaluator
+```
+
+## Tests
+
+- Unit Tests via `$ unittests`
+- Functional Test via `$ subprocess`
 - Automatically run the test everytime someone pushes or commits to the git repository
 
 
-Documentation
---------------
-Documentation could be found here: https://chensy96.github.io/Galaxy-History-Evaluator/
+## Documentation
+
+
+Documentation could be found at https://streetscience.community/Galaxy-History-Evaluator/
+
+To update it:
+
+1. Make the changes in `src/docs`
+2. Generate the doc with
+
+    ```bash
+    $ make html
+    ```
+
+
 

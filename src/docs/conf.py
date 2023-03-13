@@ -11,8 +11,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Galaxy History Evaluator'
-copyright = '2022, Siyu Chen'
-author = 'Siyu Chen'
+copyright = '2022, Siyu Chen, Teresa Müller, Bérénice Batut'
+author = 'Siyu Chen, Teresa Müller, Bérénice Batut'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -6,9 +6,7 @@
 Welcome to Galaxy History Evaluator's documentation!
 ====================================================
 
-A command-line tool to evaluate user's histories on Galaxy, by comparing the history's corresponding workflow with a standard workflow. The output result is a JSON file reporting the differences between the two histories/workflows.
-
-Link to the Github Repository: https://github.com/chensy96/Galaxy-History-Evaluator
+A command-line tool to evaluate a Galaxy history, by comparing the history's corresponding workflow with a reference workflow. The output result is a JSON file reporting the differences between the two histories/workflows.
 
 .. toctree::
    :maxdepth: 2
@@ -16,7 +14,7 @@ Link to the Github Repository: https://github.com/chensy96/Galaxy-History-Evalua
 
    usage
    installation
-   modules
+   api_documentation
    contributing
 
 Indices and tables
