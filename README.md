@@ -33,7 +33,7 @@ options:
   -a APIKEY, --apikey APIKEY
                         Galaxy API key
   -o OUTPUT, --output OUTPUT
-                        Path to output report
+                        Path to output directory
 ```
 
 ## Installation
@@ -46,9 +46,17 @@ $ pip install ghevaluator
 
 ## Tests
 
-- Unit Tests via `$ unittests`
-- Functional Test via `$ subprocess`
-- Automatically run the test everytime someone pushes or commits to the git repository
+1. Export the Galaxy API key as environment variable
+
+  ```bash
+  $ export GALAXY_APIKEY = <>
+  ```
+
+2. Run the unit tests
+
+  ```bash
+  $ make tests
+  ```
 
 
 ## Documentation
@@ -64,6 +72,3 @@ To update it:
     ```bash
     $ make html
     ```
-
-
-
