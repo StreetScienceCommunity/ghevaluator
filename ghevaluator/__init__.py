@@ -37,27 +37,25 @@ def get_workflow_from_history(hist_url, apikey):
     galaxy_url, hist_name, hist_id = get_hist_info(hist_url)
     # Connect to Galaxy instance
     gi = GalaxyInstance(url=galaxy_url, key=apikey)
-    # Get dataset and thier job ids
-    datasets = gi.histories.show_history(
+    # Get dataset and their job ids
+    hist = gi.histories.show_history(
         history_id=hist_id,
         types='dataset')
-    print(datasets)
     jobs = []
-    for ds in datasets:
+    for ds in hist['state_ids']['ok']:
         info = gi.histories.show_dataset_provenance(
             history_id=hist_id,
-            dataset_id=ds['id'],
+            dataset_id=ds,
             follow=False)
         jobs.append(info['job_id'])
+    jobs = list(set(jobs)) # remove duplicated ids
     # Extract workflow from history
     wf = gi.workflows.extract_workflow_from_history(
         history_id=hist_id,
-        history_name= f"{ hist_name }visible=true",
         job_ids=jobs,
-        dataset_hids=None,
-        dataset_collection_hids=None)
+        workflow_name=f'{hist_name} workflow')
     wf_id = wf['id']
-    return gi.workflows.export_workflow_dict(wf_id, version=None)
+    return gi.workflows.export_workflow_dict(wf_id)
 
 
 def get_standard_workflow(wf_url):
@@ -71,6 +69,16 @@ def get_standard_workflow(wf_url):
     return r.json()
 
 
+def is_input(step):
+    """
+    Check if a step is an input step
+
+    :param step: dictionary with a workflow step
+    :return: boolean
+    """
+    return step['name'] == "Input dataset" or step['name'] == "Data Fetch" or step['type'] == 'data_input'
+
+
 def count_wf_inputs(wf):
     """
     Count the numbers of the inputs in a workflow
@@ -79,8 +87,8 @@ def count_wf_inputs(wf):
     :return: number of inputs in the workflow
     """
     nb = 0
-    for key, value in wf.items():
-        if value['name'] == "Input dataset" or value['name'] == "Data Fetch":
+    for key, step in wf.items():
+        if is_input(step):
             nb += 1
     return nb
 
@@ -123,13 +131,122 @@ def split_id(tool_id):
     return owner, id, version
 
 
-def get_parameters(param_str):
+def reformate_workflows(wf):
     """
+    Reformate history workflow into a list and a dictionary with key being the tool names
 
-    :param :
-    :return:
+    :param wf: Bioblend workflow
+    :return: list and dictionary
     """
-    params = json.loads(param_str)
+    ordered_wf = []
+    wf_by_tools = {}
+    for key, step in wf.items():
+        if is_input(step):
+            continue
+        tool = step['name']
+        owner, id, version = split_id(step['tool_id'])
+        # format parameters
+        parameters = json.loads(step['tool_state'])
+        for p in ['__page__', '__input_ext', 'chromInfo', '__rerun_remap_job_id__']:
+            if p in parameters:
+                del parameters[p]
+        for p in parameters:
+            if parameters[p] is not None:
+                if parameters[p] == "null":
+                    parameters[p] = None
+                elif isinstance(parameters[p], str) and '"' in parameters[p]:
+                    parameters[p] = parameters[p].replace('"', '')
+        # format step
+        step_dict = {
+            "tool": tool,
+            "id": id,
+            "owner": owner,
+            "version": version,
+            "parameters": parameters,
+            "inputs_connection": get_input_id(step['input_connections']),
+            "order": key
+        }
+        # drop step
+        ordered_wf.append(step_dict)
+        wf_by_tools.setdefault(tool, [])
+        wf_by_tools[tool].append(step_dict)
+    return ordered_wf, wf_by_tools
+
+
+def fill_step_comparison(ref_step, hist_step, key):
+    """
+    Compare reference and history steps for a specific key
+
+    :param ref_step: dictionary with reference step
+    :param hist_step: dictionary with history step
+    :param key: key of values to compare
+    :return: dictionary with expected, history, same
+    """
+    hist_value = hist_step[key] if hist_step is not None else None
+    return {
+        'expected': ref_step[key],
+        'history': hist_value,
+        'same': bool(ref_step[key] == hist_value)
+    }
+
+
+def fill_step_report(ref_step, hist_step=None):
+    """
+    Prepare the report for a step
+
+    :param ref_step: dictionary with reference step
+    :param hist_step: dictionary with history step
+    :return: dictionary
+    """
+    s_report = {
+        "tool": fill_step_comparison(ref_step, hist_step, 'tool'),
+        "id": fill_step_comparison(ref_step, hist_step, 'id'),
+        "owner": fill_step_comparison(ref_step, hist_step, 'owner'),
+        "version": fill_step_comparison(ref_step, hist_step, 'version'),
+        "order": fill_step_comparison(ref_step, hist_step, 'order'),
+        "parameters": {
+            'number': {
+                'expected': len(ref_step['parameters']),
+                'history': len(hist_step['parameters']) if hist_step is not None else None,
+                'same': bool(len(ref_step['parameters']) == len(hist_step['parameters'])) if hist_step is not None else False
+            },
+            'wrong': len(ref_step['parameters']),
+            'details': {}
+        },
+        "inputs_connection": fill_step_comparison(ref_step, hist_step, 'inputs_connection')
+    }
+    # compare parameters
+    for p in ref_step['parameters']:
+        s_report['parameters']['details'][p] = {
+            'expected': ref_step['parameters'][p],
+            'history': hist_step['parameters'][p] if hist_step is not None and p in hist_step['parameters'] else None,
+            'same': bool(ref_step['parameters'][p] == hist_step['parameters'][p]) if hist_step is not None and p in hist_step['parameters'] else False
+        }
+        if s_report['parameters']['details'][p]['same']:
+            s_report['parameters']['wrong'] -= 1
+    return s_report
+
+
+def compare_ordered_steps(ref_steps, hist_steps):
+    """
+    Compare ordered steps
+
+    :param ref_steps: list of steps in reference workflow
+    :param hist_steps: list of steps in history workflow
+    :return: dictionary with comparison
+    """
+    comparison = {}
+    h_step_count = 0
+    for i, ref_step in enumerate(ref_steps):
+        if hist_steps is None:
+            comparison[i] = fill_step_report(ref_step, None)
+        elif ref_step['tool'] == hist_steps[h_step_count]['tool']:
+            comparison[i] = fill_step_report(ref_step, hist_steps[h_step_count])
+            h_step_count += 1
+        else:
+            print("Need to implement input connection comparison so order is similar")
+            comparison[i] = fill_step_report(ref_step, None)
+    return comparison
 
 
 def compare_workflows(hist_wf, ref_wf):
@@ -140,152 +257,60 @@ def compare_workflows(hist_wf, ref_wf):
     :param ref_wf: dictionary with reference workflow
     :return: dictionary with report
     """
+    report = {}
     hist_wf = hist_wf['steps']
     ref_wf = ref_wf['steps']
-    # Compare number of steps in both workflows
+    # Reformate workflows
+    ordered_hist_wf, hist_wf_by_tool = reformate_workflows(hist_wf)
+    ordered_ref_wf, ref_wf_by_tool = reformate_workflows(ref_wf)
+    report['reference_wf'] = ordered_ref_wf
+    report['history_wf'] = ordered_hist_wf
+    # Compare inputs in both workflows
     hist_wf_input_nb = count_wf_inputs(hist_wf)
     ref_wf_input_nb = count_wf_inputs(ref_wf)
-    # Reformate history workflow inot dictionary with key being the tool names
-    reform_hist_wf = {}
-    for key, step in hist_wf.items():
-        tool = step['name']
-        reform_hist_wf.setdefault(tool, [])
-        owner, id, version = split_id(step['tool_id'])
-        reform_hist_wf[tool].append({
-            "id": id,
-            "owner": owner,
-            "version": version,
-            "parameters": json.loads(step['tool_state']),
-            "inputs_connection": get_input_id(ref_step['input_connections'])
-        })
-    # Initialize some parameters
-    tool_mistake = 0
-    param_nb = 0
-    param_mistakes = 0
-    step_nb = len(ref_wf) - ref_wf_input_nb
-    report = {
-        'data_inputs': {
-            "expected": ref_wf_input_nb,
-            "history": hist_wf_input_nb,
-            "status": bool(ref_wf_input_nb == hist_wf_input_nb)
-        },
-        'steps':{
-            'number': {
-                'expected': step_nb,
-                'history': len(hist_wf) - hist_wf_input_nb,
-                'same': False
-            },
-            'wrong': step_nb,
-            'details': {}
-        }
+    report['data_inputs'] = {
+        "expected": ref_wf_input_nb,
+        "history": hist_wf_input_nb,
+        "status": bool(ref_wf_input_nb == hist_wf_input_nb)
     }
-    # Loop through the reference workflow steps
-    step = 0
-    for key, ref_step in ref_wf.items():
-        tool = ref_step['name']
-        # pass if it is a data input step
-        if tool == "Input dataset" or tool == "Data Fetch":
-            continue
-        # initialize objects, in particular the step report
-        owner, id, version = split_id(ref_step['tool_id'])
-        ref_params = json.loads(ref_step['tool_state'])
-        s_report = {
-            "tool": {
-                'expected': tool,
-                'history': None,
-                'same': False
+    # Compare number of steps in both workflows
+    hist_step_nb = len(hist_wf) - hist_wf_input_nb
+    ref_step_nb = len(ref_wf) - ref_wf_input_nb
+    report['steps'] = {
+        'expected': ref_step_nb,
+        'history': hist_step_nb,
+        'same': bool(ref_step_nb == hist_step_nb)
+    }
+    # Compare ordered workflows
+    report['comparison_given_reference_workflow_order'] = compare_ordered_steps(ordered_ref_wf, ordered_hist_wf)
+    # Compare workflows by tools
+    comparison = {}
+    for tool in ref_wf_by_tool:
+        comparison[tool] = {
+            'number': {
+                'expected': len(ref_wf_by_tool[tool]),
+                'history': len(hist_wf_by_tool[tool]) if tool in hist_wf_by_tool else 0,
+                'same': bool(len(ref_wf_by_tool[tool]) == len(hist_wf_by_tool[tool])) if tool in hist_wf_by_tool else False
             },
-            "id": {
-                'expected': id,
-                'history': None,
-                'same': False
-            },
-            "owner": {
-                'expected': owner,
-                'history': None,
-                'same': False
-            },
-            "version": {
-                'expected': version,
-                'history': None,
-                'same': False
-            },
-            "parameters": {
-                'number': {
-                    'expected': len(ref_params),
-                    'history': None,
-                    'same': False
-                },
-                'wrong': len(ref_params),
-                'details': {}
-            },
-            "inputs_connection": {
-                "expected": get_input_id(ref_step['input_connections']),
-                "history": [],
-                "same": False
-            }
+            'details': compare_ordered_steps(ref_wf_by_tool[tool], hist_wf_by_tool[tool] if tool in hist_wf_by_tool else None)
         }
-        for p in ref_params:
-            s_report['parameters']['details'][p] = {
-                'expected': ref_params[p],
-                'history': None,
-                'same': False
-            }
-        # search for tool in history workflow
-        if tool in reform_hist_wf:
-            ## NEED TO DEAL with lists in reform_user_wf
-            report['steps']['wrong'] -= 1
-            # add given value and make comparison
-            for n in ['tool', 'id', 'owner', 'version']:
-                s_report[n]['history'] = reform_hist_wf[tool][n]
-                s_report[n]['same'] = bool(report['steps'][step][n]['history'] == report['steps'][step][n]['expected'])
-            # compare parameter numbers
-            s_report['parameters']['number']['history'] = len(reform_hist_wf[tool]['parameters'])
-            s_report['parameters']['number']['same'] = bool(s_report['parameters']['number']['history'] == s_report['parameters']['number']['expected'])
-            # compare parameters one by one
-            for p in s_report['parameters']['details']:
-                if p in reform_hist_wf[tool]['parameters']:
-                    s_report['parameters']['details'][p]['history'] = reform_hist_wf[tool]['parameters'][p]
-                    s_report['parameters']['details'][p]['same'] = bool(s_report['parameters']['details'][p]['history'] == s_report['parameters']['details'][p]['expected'])
-                    s_report['parameters']['wrong'] -= 1
-            # compare inputs
-            report['steps'][step]['inputs_connection']['history'] = reform_hist_wf[tool]['inputs_connection']
-
-        # record the input connection names based on the saved id lists into the report
-        #for x in std_inpt_list:
-        #    if -1 < x < std_input:
-        #        inpt_connect['expected_input_source'].append("datasets")
-        #    else:
-        #        try:
-        #            discard1,idtemp,discard2 = splilt_id(std_dict[str(x)]['tool_id'])
-        #            inpt_connect['expected_input_source'].append(idtemp)
-        #        except:
-        #            pass
-        #for y in usr_inpt_list:
-        #    if -1 < y < std_input:
-        #        inpt_connect['user_input_source'].append("datasets")
-        #    else:
-        #        try:
-        #            discard3, idtemp1, discard4 = splilt_id(usr_dict[str(y)]['tool_id'])
-        #            inpt_connect['user_input_source'].append(idtemp1)
-        #        except:
-        #            pass
-        report['steps']['details'][step] = s_report
+    report['comparison_by_reference_workflow_tools'] = comparison
     return report
 
 
-def generate_report_file(data, output_fp):
+def generate_report_files(data, output_dp):
     """
     Convert the report dictionary into a JSON file
 
     :param data: dictionary holding the information of the status of key features of user history
-    :param output_fp: Path object of the output report
+    :param output_dp: Path object of the output directory
     """
-    with output_fp.open('w') as out_f:
+    json_fp = output_dp / Path("report.json")
+    with json_fp.open('w') as out_f:
         json.dump(data, out_f, ensure_ascii=False, indent=4)
 
 
-def ghevaluator(hist_url, wf_url, apikey, output_fp):
+def ghevaluator(hist_url, wf_url, apikey, output_dp):
     """
     The main function
 
@@ -298,9 +323,9 @@ def ghevaluator(hist_url, wf_url, apikey, output_fp):
     :param hist_url: URL to Galaxy history
     :param wf_url: URL to template workflow
     :param apikey: a Galaxy API key obtained prehand
-    :param output_fp: Path object of the output report
+    :param output_dp: Path object of the output report
     """
     hist_wf = get_workflow_from_history(hist_url, apikey)
     ref_wf = get_standard_workflow(wf_url)
     report = compare_workflows(hist_wf, ref_wf)
-    generate_report_file(report, output_fp)
+    generate_report_files(report, output_dp)
