@@ -6,7 +6,7 @@ import ghevaluator
 from pathlib import Path
 
 
-def main():
+def main(argv=None):
     """
     The main function
 

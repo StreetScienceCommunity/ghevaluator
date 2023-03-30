@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 WF_URL = "https://training.galaxyproject.org/training-material/topics/introduction/tutorials/galaxy-intro-short/workflows/Galaxy-Workflow-galaxy-intro-short.ga"
-HIST_URL = "https://usegalaxy.eu/u/berenice/h/short-introduction"
+HIST_URL = "https://usegalaxy.eu/u/berenice/h/short-introduction-for-ghevaluator"
 APIKEY = os.getenv('GALAXY_API_KEY')
 
 
@@ -114,7 +114,7 @@ def test_is_input():
 def test_count_wf_inputs():
     """
     """
-    wf = ghevaluator.get_standard_workflow(WF_URL)
+    wf = ghevaluator.get_standard_workflow(WF_URL)['steps']
     assert ghevaluator.count_wf_inputs(wf) == 1
 
 
@@ -127,11 +127,11 @@ def test_get_input_id():
             "output_name": "output"
         }
     }
-    assert ghevaluator.get_input_id(input_connections) == 0
+    assert ghevaluator.get_input_id(input_connections) == [0]
     input_connections = {
         "output_name": "output"
     }
-    assert ghevaluator.get_input_id(input_connections) == -1
+    assert ghevaluator.get_input_id(input_connections) == [-1]
 
 
 def test_split_id():
@@ -142,12 +142,17 @@ def test_split_id():
     assert owner == "devteam"
     assert id == "fastqc"
     assert version == "0.72"
+    tool_id = "toolshed.g2.bx.psu.edu/0.72"
+    owner, id, version = ghevaluator.split_id(tool_id)
+    assert owner is None
+    assert id is None
+    assert version is None
 
 
 def test_reformate_workflows():
     """
     """
-    wf = ghevaluator.get_standard_workflow(WF_URL)
+    wf = ghevaluator.get_standard_workflow(WF_URL)['steps']
     ordered_wf, wf_by_tools = ghevaluator.reformate_workflows(wf)
     assert isinstance(ordered_wf, list)
     assert isinstance(ordered_wf[0], dict)
@@ -155,8 +160,9 @@ def test_reformate_workflows():
     assert isinstance(ordered_wf[0]['inputs_connection'], list)
     assert isinstance(wf_by_tools, dict)
     assert 'FastQC' in wf_by_tools
-    assert isinstance(wf_by_tools['FastQC'], dict)
-    assert 'tool' in ordered_wf['FastQC']
+    assert isinstance(wf_by_tools['FastQC'], list)
+    assert len(wf_by_tools['FastQC']) == 1
+    assert 'tool' in wf_by_tools['FastQC'][0]
 
 
 def test_fill_step_comparison():
@@ -209,7 +215,7 @@ def test_fill_step_report():
     assert report['tool']['expected'] == 'tool'
     assert report['tool']['history'] is None
     assert isinstance(report['parameters'], dict)
-    assert "number" in report['tool']
+    assert "number" in report['parameters']
     assert isinstance(report['parameters']['number'], dict)
     assert report['parameters']['number']['expected'] == 1
     assert report['parameters']['number']['history'] is None
@@ -239,7 +245,7 @@ def test_compare_ordered_steps():
     }
     ref_steps = [ref_step]
     comparison = ghevaluator.compare_ordered_steps(ref_steps, None)
-    assert isinstance(comparison, list)
+    assert isinstance(comparison, dict)
     assert len(comparison) == 1
     assert isinstance(comparison[0], dict)
     assert "tool" in comparison[0]
@@ -274,13 +280,13 @@ def test_compare_workflows():
     assert "reference_wf" in report
     assert "history_wf" in report
     assert "data_inputs" in report
-    assert isinstance(report['data_inputs', dict])
+    assert isinstance(report['data_inputs'], dict)
     assert 'expected' in report['data_inputs']
     assert report['data_inputs']['expected'] == 1
     assert report['data_inputs']['history'] == 1
     assert report['data_inputs']['same']
     assert "steps" in report
-    assert isinstance(report['steps', dict])
+    assert isinstance(report['steps'], dict)
     assert 'expected' in report['steps']
     assert report['steps']['expected'] == 3
     assert report['steps']['history'] == 3

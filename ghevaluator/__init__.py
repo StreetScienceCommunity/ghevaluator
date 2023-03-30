@@ -103,7 +103,7 @@ def get_input_id(unkw_dict):
     ids = []
     for key, item in unkw_dict.items():
         if item is dict:
-            get_input_id(item)
+            return get_input_id(item)
         elif 'id' in item:
             ids.append(item['id'])
         else:
@@ -125,9 +125,9 @@ def split_id(tool_id):
         id = split_tool_id[4]
         version = split_tool_id[5]
     else:
-        owner = 0
-        id = 0
-        version = 0
+        owner = None
+        id = None
+        version = None
     return owner, id, version
 
 
@@ -271,7 +271,7 @@ def compare_workflows(hist_wf, ref_wf):
     report['data_inputs'] = {
         "expected": ref_wf_input_nb,
         "history": hist_wf_input_nb,
-        "status": bool(ref_wf_input_nb == hist_wf_input_nb)
+        "same": bool(ref_wf_input_nb == hist_wf_input_nb)
     }
     # Compare number of steps in both workflows
     hist_step_nb = len(hist_wf) - hist_wf_input_nb
