@@ -48,7 +48,7 @@ def get_workflow_from_history(hist_url, apikey):
             dataset_id=ds,
             follow=False)
         jobs.append(info['job_id'])
-    jobs = list(set(jobs)) # remove duplicated ids
+    jobs = list(set(jobs))  # remove duplicated ids
     # Extract workflow from history
     wf = gi.workflows.extract_workflow_from_history(
         history_id=hist_id,

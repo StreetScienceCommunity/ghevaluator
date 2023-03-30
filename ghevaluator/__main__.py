@@ -5,6 +5,7 @@ import ghevaluator
 
 from pathlib import Path
 
+
 def main():
     """
     The main function
@@ -18,10 +19,10 @@ def main():
     4. Call generate_report_file function to output the final report.
     """
     parser = argparse.ArgumentParser(description='Compare a Galaxy history to a reference workflow and generate a JSON report file')
-    parser.add_argument('-u','--history_url', help="URL to Galaxy history", required=True)
-    parser.add_argument('-w','--workflow_url', help="URL to reference workflow", required=True)
-    parser.add_argument('-a','--apikey', help="Galaxy API key for the same instance where the history is", required=True)
-    parser.add_argument('-o','--output', help="Path to output folder", type=Path)
+    parser.add_argument('-u', '--history_url', help="URL to Galaxy history", required=True)
+    parser.add_argument('-w', '--workflow_url', help="URL to reference workflow", required=True)
+    parser.add_argument('-a', '--apikey', help="Galaxy API key for the same instance where the history is", required=True)
+    parser.add_argument('-o', '--output', help="Path to output folder", type=Path)
     args = parser.parse_args()
 
     ghevaluator.ghevaluator(

@@ -20,7 +20,8 @@ setup(
     entry_points={
         'console_scripts': [
             'ghevaluator = ghevaluator.__main__:main'
-    ]},
+        ]
+    },
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Environment :: Web Environment",

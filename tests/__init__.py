@@ -40,73 +40,73 @@ def test_is_input():
     """
     """
     step = {
-      "annotation": "",
-      "content_id": None,
-      "errors": None,
-      "id": 0,
-      "input_connections": {},
-      "inputs": [
-        {
-          "description": "",
-          "name": "mutant_R1"
-        }
-      ],
-      "label": "mutant_R1",
-      "name": "mutant_R1",
-      "outputs": [],
-      "position": {
-        "left": 10,
-        "top": 10
-      },
-      "tool_id": None,
-      "tool_state": "{\"name\": \"mutant_R1\"}",
-      "tool_version": None,
-      "type": "data_input",
-      "uuid": "e271eee4-bfb8-40b4-b691-a25cb9932327",
-      "workflow_outputs": []
+        "annotation": "",
+        "content_id": None,
+        "errors": None,
+        "id": 0,
+        "input_connections": {},
+        "inputs": [
+            {
+                "description": "",
+                "name": "mutant_R1"
+            }
+        ],
+        "label": "mutant_R1",
+        "name": "mutant_R1",
+        "outputs": [],
+        "position": {
+            "left": 10,
+            "top": 10
+        },
+        "tool_id": None,
+        "tool_state": "{\"name\": \"mutant_R1\"}",
+        "tool_version": None,
+        "type": "data_input",
+        "uuid": "e271eee4-bfb8-40b4-b691-a25cb9932327",
+        "workflow_outputs": []
     }
     assert ghevaluator.is_input(step)
     step = {
-      "annotation": "",
-      "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72",
-      "errors": None,
-      "id": 1,
-      "input_connections": {
-        "input_file": {
-          "id": 0,
-          "output_name": "output"
-        }
-      },
-      "inputs": [],
-      "label": None,
-      "name": "FastQC",
-      "outputs": [
-        {
-          "name": "html_file",
-          "type": "html"
+        "annotation": "",
+        "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72",
+        "errors": None,
+        "id": 1,
+        "input_connections": {
+            "input_file": {
+                "id": 0,
+                "output_name": "output"
+            }
         },
-        {
-          "name": "text_file",
-          "type": "txt"
-        }
-      ],
-      "position": {
-        "left": 230,
-        "top": 10
-      },
-      "post_job_actions": {},
-      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72",
-      "tool_shed_repository": {
-        "changeset_revision": "c15237684a01",
-        "name": "fastqc",
-        "owner": "devteam",
-        "tool_shed": "toolshed.g2.bx.psu.edu"
-      },
-      "tool_state": "{\"__page__\": null, \"limits\": \"null\", \"input_file\": \"null\", \"__rerun_remap_job_id__\": null, \"contaminants\": \"null\", \"chromInfo\": \"\\\"/cvmfs/data.galaxyproject.org/managed/len/ucsc/?.len\\\"\"}",
-      "tool_version": "0.72",
-      "type": "tool",
-      "uuid": "c6a231d9-786d-4fdf-bc25-8e3db1c16bfa",
-      "workflow_outputs": []
+        "inputs": [],
+        "label": None,
+        "name": "FastQC",
+        "outputs": [
+            {
+                "name": "html_file",
+                "type": "html"
+            },
+            {
+                "name": "text_file",
+                "type": "txt"
+            }
+        ],
+        "position": {
+            "left": 230,
+            "top": 10
+        },
+        "post_job_actions": {},
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72",
+        "tool_shed_repository": {
+            "changeset_revision": "c15237684a01",
+            "name": "fastqc",
+            "owner": "devteam",
+            "tool_shed": "toolshed.g2.bx.psu.edu"
+        },
+        "tool_state": "{\"__page__\": null, \"limits\": \"null\", \"input_file\": \"null\", \"__rerun_remap_job_id__\": null, \"contaminants\": \"null\", \"chromInfo\": \"\\\"/cvmfs/data.galaxyproject.org/managed/len/ucsc/?.len\\\"\"}",
+        "tool_version": "0.72",
+        "type": "tool",
+        "uuid": "c6a231d9-786d-4fdf-bc25-8e3db1c16bfa",
+        "workflow_outputs": []
     }
     assert not ghevaluator.is_input(step)
 
@@ -123,8 +123,8 @@ def test_get_input_id():
     """
     input_connections = {
         "input_file": {
-          "id": 0,
-          "output_name": "output"
+            "id": 0,
+            "output_name": "output"
         }
     }
     assert ghevaluator.get_input_id(input_connections) == 0
@@ -176,8 +176,8 @@ def test_fill_step_comparison():
     comparison = ghevaluator.fill_step_comparison(ref_step, ref_step, key)
     assert comparison['history'] == value
     assert comparison['same']
-    comparison = ghevaluator.fill_step_comparison(ref_step, {key: value+1}, key)
-    assert comparison['history'] == value+1
+    comparison = ghevaluator.fill_step_comparison(ref_step, {key: value + 1}, key)
+    assert comparison['history'] == value + 1
     assert not comparison['same']
 
 
@@ -245,7 +245,7 @@ def test_compare_ordered_steps():
     assert "tool" in comparison[0]
     assert comparison[0]['tool']['history'] is None
     comparison = ghevaluator.compare_ordered_steps(ref_steps, ref_steps)
-    assert comparison[0]['tool']['history'] is 'tool'
+    assert comparison[0]['tool']['history'] == 'tool'
     hist_steps = [
         {
             "tool": 'other-tool',
