@@ -1,6 +1,6 @@
 [project]
 name = "ghevaluator"
-version = "0.0.1"
+version = "2.0.0"
 authors = [
   { name="Siyu Chen", email="chensy96@gmail.com" },
   { name="Teresa Müller" },
