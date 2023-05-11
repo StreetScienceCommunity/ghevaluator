@@ -1,7 +1,8 @@
 bioblend
 requests
-setuptools
+build
 flake8
 pytest
 pytest-cov
 Sphinx
+twine

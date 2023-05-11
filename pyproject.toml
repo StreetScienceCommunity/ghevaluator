@@ -1,0 +1,38 @@
+[project]
+name = "ghevaluator"
+version = "0.0.1"
+authors = [
+  { name="Siyu Chen", email="chensy96@gmail.com" },
+  { name="Teresa Müller" },
+  { name="Bérénice Batut", email="berenice.batut@gmail.com" },
+]
+description = "A command-line Python tool to compare Galaxy histories to a template workflow and generate a JSON report file."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering"
+]
+
+dependencies = [
+    "bioblend",
+    "requests",
+]
+
+[project.scripts]
+ghevaluator = "ghevaluator.__main__:main"
+
+[project.urls]
+repository = "https://github.com/SteetScienceCommunity/ghevaluator"
+documentation = "https://streetscience.community/ghevaluator/"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages]
+find = {} 
+
