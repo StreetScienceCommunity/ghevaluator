@@ -62,7 +62,7 @@ $ pip install ghevaluator
 ## Documentation
 
 
-Documentation could be found at https://streetscience.community/Galaxy-History-Evaluator/
+Documentation could be found at https://streetscience.community/ghevaluator/
 
 To update it:
 
