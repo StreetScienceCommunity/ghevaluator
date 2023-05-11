@@ -14,17 +14,20 @@ init: ## install the requirements
 .PHONY: init
 
 develop: init ## setup develop mode
-	python setup.py develop
+	pip install --editable .
 .PHONY: develop
+
+build: init ## build
+	python -m build
+.PHONY: build
 
 test: ## run the tests
 	flake8 --exclude=.git,build --ignore=E501 .
 	py.test --cov=enasearch tests/
 .PHONY: test
 
-upload: ## upload on PyPi
-	python setup.py register -r pypi
-	python setup.py sdist upload -r pypi
+upload: build ## upload on PyPi
+	python -m twine upload dist/*
 .PHONY: upload
 
 doc: ## generate HTML documentation
