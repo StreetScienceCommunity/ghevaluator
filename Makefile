@@ -1,11 +1,3 @@
-# Sphinx variable
-SPHINXOPTS    =
-SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = ghevaluate
-SOURCEDIR     = src/docs
-BUILDDIR      = tmp
-
-
 # Commands
 default: help
 
@@ -29,6 +21,13 @@ test: ## run the tests
 upload: build ## upload on PyPi
 	python -m twine upload dist/*
 .PHONY: upload
+
+# Sphinx variable
+SPHINXOPTS    =
+SPHINXBUILD   = python -msphinx
+SPHINXPROJ    = ghevaluate
+SOURCEDIR     = src/docs
+BUILDDIR      = build
 
 doc: ## generate HTML documentation
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
