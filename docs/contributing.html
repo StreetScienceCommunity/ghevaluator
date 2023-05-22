@@ -85,11 +85,19 @@
 <h2>Tests<a class="headerlink" href="#tests" title="Permalink to this heading">¶</a></h2>
 <p>The code and individual functions are covered by tests, using <cite>unittests</cite>.</p>
 <p>We also recommend to run them locally before pushing to GitHub with:</p>
+<ol class="arabic">
+<li><p>Export the Galaxy API key as environment variable</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">GALAXY_API_KEY</span><span class="o">=</span>&lt;REPLACE_WITH_GALAXY_API_KEY&gt;
+</pre></div>
+</div>
+</li>
+<li><p>Run the unit tests</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nb">test</span>
 </pre></div>
 </div>
-<p>After adding new function or making changes to an existing function, make sure to make changes to the unittest files under the <cite>test</cite> folder.</p>
-<p>In addition to unit tests, the overall functionality and the intergration of the tool is tested via <cite>subprocess</cite> under the <cite>integration test</cite> folder. It also runs automatically everytime someone pushes or commits to the git repository.</p>
+</li>
+</ol>
+<p>After adding new function or making changes to an existing function, make sure to make changes to the tests in the <cite>test</cite> folder.</p>
 </section>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>

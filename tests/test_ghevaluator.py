@@ -173,10 +173,10 @@ def test_fill_step_comparison():
     ref_step = {key: value}
     comparison = ghevaluator.fill_step_comparison(ref_step, None, key)
     assert isinstance(comparison, dict)
-    assert 'expected' in comparison
+    assert 'workflow' in comparison
     assert 'history' in comparison
     assert 'same' in comparison
-    assert comparison['expected'] == value
+    assert comparison['workflow'] == value
     assert comparison['history'] is None
     assert not comparison['same']
     comparison = ghevaluator.fill_step_comparison(ref_step, ref_step, key)
@@ -211,17 +211,17 @@ def test_fill_step_report():
     assert "inputs_connection" in report
     assert "order" in report
     assert isinstance(report['tool'], dict)
-    assert "expected" in report['tool']
-    assert report['tool']['expected'] == 'tool'
+    assert "workflow" in report['tool']
+    assert report['tool']['workflow'] == 'tool'
     assert report['tool']['history'] is None
     assert isinstance(report['parameters'], dict)
     assert "number" in report['parameters']
     assert isinstance(report['parameters']['number'], dict)
-    assert report['parameters']['number']['expected'] == 1
+    assert report['parameters']['number']['workflow'] == 1
     assert report['parameters']['number']['history'] is None
     assert isinstance(report['parameters']['details'], dict)
     assert "p1" in report['parameters']['details']
-    assert report['parameters']['details']['p1']['expected'] == 'p1'
+    assert report['parameters']['details']['p1']['workflow'] == 'p1'
     assert report['parameters']['details']['p1']['history'] is None
     report = ghevaluator.fill_step_report(ref_step, ref_step)
     assert report['tool']['history'] == 'tool'
@@ -275,20 +275,20 @@ def test_compare_workflows():
     """
     ref_wf = ghevaluator.get_standard_workflow(WF_URL)
     hist_wf = ghevaluator.get_workflow_from_history(HIST_URL, APIKEY)
-    report = ghevaluator.compare_workflows(hist_wf, ref_wf)
+    report = ghevaluator.compare_workflows(hist_wf, ref_wf, {})
     assert isinstance(report, dict)
     assert "reference_wf" in report
     assert "history_wf" in report
     assert "data_inputs" in report
     assert isinstance(report['data_inputs'], dict)
-    assert 'expected' in report['data_inputs']
-    assert report['data_inputs']['expected'] == 1
+    assert 'workflow' in report['data_inputs']
+    assert report['data_inputs']['workflow'] == 1
     assert report['data_inputs']['history'] == 1
     assert report['data_inputs']['same']
     assert "steps" in report
     assert isinstance(report['steps'], dict)
-    assert 'expected' in report['steps']
-    assert report['steps']['expected'] == 3
+    assert 'workflow' in report['steps']
+    assert report['steps']['workflow'] == 3
     assert report['steps']['history'] == 3
     assert report['steps']['same']
     assert "comparison_given_reference_workflow_order" in report
@@ -297,12 +297,32 @@ def test_compare_workflows():
     assert isinstance(report["comparison_by_reference_workflow_tools"], dict)
 
 
+def test_generate_html_report_content():
+    """
+    """
+    ref_wf = ghevaluator.get_standard_workflow(WF_URL)
+    hist_wf = ghevaluator.get_workflow_from_history(HIST_URL, APIKEY)
+    report = ghevaluator.compare_workflows(hist_wf, ref_wf, {'inputs': {'history': HIST_URL, 'workflow': WF_URL}})
+    content = ghevaluator.generate_html_report_content(report)
+    assert 'Galaxy History Evaluator report' in content
+    assert 'fa-check-square' in content
+    assert 'fa-exclamation-triangle' in content
+    assert 'FastQC' in content
+    assert '1.0.2+galaxy0' in content
+    assert 'Occurence 1' in content
+
+
 def test_generate_report_files():
     """
     """
-    ghevaluator.generate_report_files({}, Path("."))
+    ref_wf = ghevaluator.get_standard_workflow(WF_URL)
+    hist_wf = ghevaluator.get_workflow_from_history(HIST_URL, APIKEY)
+    report = ghevaluator.compare_workflows(hist_wf, ref_wf, {'inputs': {'history': HIST_URL, 'workflow': WF_URL}})
+    ghevaluator.generate_report_files(report, Path("."))
     assert Path("report.json").exists
     Path("report.json").unlink()
+    assert Path("report.html").exists
+    Path("report.html").unlink()
 
 
 def test_ghevaluator():
@@ -311,3 +331,5 @@ def test_ghevaluator():
     ghevaluator.ghevaluator(HIST_URL, WF_URL, APIKEY, Path("."))
     assert Path("report.json").exists
     Path("report.json").unlink()
+    assert Path("report.html").exists
+    Path("report.html").unlink()

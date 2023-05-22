@@ -6,7 +6,10 @@
 Welcome to Galaxy History Evaluator's documentation!
 ====================================================
 
-A command-line tool to evaluate a Galaxy history, by comparing the history's corresponding workflow with a reference workflow. The output result is a JSON file reporting the differences between the two histories/workflows.
+A command-line tool to evaluate a Galaxy history, by comparing the history's corresponding workflow 
+with a reference workflow. 
+
+The output result are a JSON and HTML report files, reporting the differences between the history and the workflow.
 
 .. toctree::
    :maxdepth: 2

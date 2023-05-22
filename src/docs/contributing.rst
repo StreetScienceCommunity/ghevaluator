@@ -71,15 +71,21 @@ The code and individual functions are covered by tests, using `unittests`.
 
 We also recommend to run them locally before pushing to GitHub with:
 
-.. code-block:: bash
 
-   $ make test
+1. Export the Galaxy API key as environment variable
+
+   .. code-block:: bash
+
+      $ export GALAXY_API_KEY=<REPLACE_WITH_GALAXY_API_KEY>
+
+2. Run the unit tests
+
+   .. code-block:: bash
+
+      $ make test
 
 
-After adding new function or making changes to an existing function, make sure to make changes to the unittest files under the `test` folder.
-
-In addition to unit tests, the overall functionality and the intergration of the tool is tested via `subprocess` under the `integration test` folder. It also runs automatically everytime someone pushes or commits to the git repository.
-
+After adding new function or making changes to an existing function, make sure to make changes to the tests in the `test` folder.
 
 Documentation
 -------------

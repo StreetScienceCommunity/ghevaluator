@@ -4,6 +4,7 @@ import json
 import requests
 
 from bioblend.galaxy import GalaxyInstance
+from jinja2 import Environment, PackageLoader, select_autoescape
 from pathlib import Path
 from urllib import parse
 
@@ -180,11 +181,11 @@ def fill_step_comparison(ref_step, hist_step, key):
     :param ref_step: dictionary with reference step
     :param hist_step: dictionary with history step
     :param key: key of values to compare
-    :return: dictionary with expected, history, same
+    :return: dictionary with workflow, history, same
     """
     hist_value = hist_step[key] if hist_step is not None else None
     return {
-        'expected': ref_step[key],
+        'workflow': ref_step[key],
         'history': hist_value,
         'same': bool(ref_step[key] == hist_value)
     }
@@ -206,7 +207,7 @@ def fill_step_report(ref_step, hist_step=None):
         "order": fill_step_comparison(ref_step, hist_step, 'order'),
         "parameters": {
             'number': {
-                'expected': len(ref_step['parameters']),
+                'workflow': len(ref_step['parameters']),
                 'history': len(hist_step['parameters']) if hist_step is not None else None,
                 'same': bool(len(ref_step['parameters']) == len(hist_step['parameters'])) if hist_step is not None else False
             },
@@ -218,7 +219,7 @@ def fill_step_report(ref_step, hist_step=None):
     # compare parameters
     for p in ref_step['parameters']:
         s_report['parameters']['details'][p] = {
-            'expected': ref_step['parameters'][p],
+            'workflow': ref_step['parameters'][p],
             'history': hist_step['parameters'][p] if hist_step is not None and p in hist_step['parameters'] else None,
             'same': bool(ref_step['parameters'][p] == hist_step['parameters'][p]) if hist_step is not None and p in hist_step['parameters'] else False
         }
@@ -249,7 +250,7 @@ def compare_ordered_steps(ref_steps, hist_steps):
     return comparison
 
 
-def compare_workflows(hist_wf, ref_wf):
+def compare_workflows(hist_wf, ref_wf, report):
     """
     Compare a user workflow to a reference workflow and generate a report
 
@@ -257,7 +258,6 @@ def compare_workflows(hist_wf, ref_wf):
     :param ref_wf: dictionary with reference workflow
     :return: dictionary with report
     """
-    report = {}
     hist_wf = hist_wf['steps']
     ref_wf = ref_wf['steps']
     # Reformate workflows
@@ -269,7 +269,7 @@ def compare_workflows(hist_wf, ref_wf):
     hist_wf_input_nb = count_wf_inputs(hist_wf)
     ref_wf_input_nb = count_wf_inputs(ref_wf)
     report['data_inputs'] = {
-        "expected": ref_wf_input_nb,
+        "workflow": ref_wf_input_nb,
         "history": hist_wf_input_nb,
         "same": bool(ref_wf_input_nb == hist_wf_input_nb)
     }
@@ -277,7 +277,7 @@ def compare_workflows(hist_wf, ref_wf):
     hist_step_nb = len(hist_wf) - hist_wf_input_nb
     ref_step_nb = len(ref_wf) - ref_wf_input_nb
     report['steps'] = {
-        'expected': ref_step_nb,
+        'workflow': ref_step_nb,
         'history': hist_step_nb,
         'same': bool(ref_step_nb == hist_step_nb)
     }
@@ -288,7 +288,7 @@ def compare_workflows(hist_wf, ref_wf):
     for tool in ref_wf_by_tool:
         comparison[tool] = {
             'number': {
-                'expected': len(ref_wf_by_tool[tool]),
+                'workflow': len(ref_wf_by_tool[tool]),
                 'history': len(hist_wf_by_tool[tool]) if tool in hist_wf_by_tool else 0,
                 'same': bool(len(ref_wf_by_tool[tool]) == len(hist_wf_by_tool[tool])) if tool in hist_wf_by_tool else False
             },
@@ -298,16 +298,36 @@ def compare_workflows(hist_wf, ref_wf):
     return report
 
 
+def generate_html_report_content(data):
+    """
+    Generate HTML report
+
+    :param data: dictionary holding the information of the status of key features of user history
+    """
+    env = Environment(
+        loader=PackageLoader("ghevaluator", "templates"),
+        autoescape=select_autoescape()
+    )
+    template = env.get_template("report.html")
+    return template.render(report=data)
+
+
 def generate_report_files(data, output_dp):
     """
-    Convert the report dictionary into a JSON file
+    Convert the report dictionary into a JSON file and a HTML file
 
     :param data: dictionary holding the information of the status of key features of user history
     :param output_dp: Path object of the output directory
     """
+    output_dp.mkdir(parents=True, exist_ok=True)
+
     json_fp = output_dp / Path("report.json")
     with json_fp.open('w') as out_f:
         json.dump(data, out_f, ensure_ascii=False, indent=4)
+
+    html_fp = output_dp / Path("report.html")
+    with html_fp.open('w') as out_f:
+        out_f.write(generate_html_report_content(data))
 
 
 def ghevaluator(hist_url, wf_url, apikey, output_dp):
@@ -327,5 +347,5 @@ def ghevaluator(hist_url, wf_url, apikey, output_dp):
     """
     hist_wf = get_workflow_from_history(hist_url, apikey)
     ref_wf = get_standard_workflow(wf_url)
-    report = compare_workflows(hist_wf, ref_wf)
+    report = compare_workflows(hist_wf, ref_wf, {'inputs': {'history': hist_url, 'workflow': wf_url}})
     generate_report_files(report, output_dp)
