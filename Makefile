@@ -10,6 +10,7 @@ develop: init ## setup develop mode
 .PHONY: develop
 
 build: init ## build
+	rm -rf dist
 	python -m build
 .PHONY: build
 
@@ -33,6 +34,7 @@ doc: ## generate HTML documentation
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	rm -rf docs
 	mv "$(BUILDDIR)/html" docs
+	touch docs/.nojekyll
 	rm -rf docs/_sources
 .PHONY: doc
 
