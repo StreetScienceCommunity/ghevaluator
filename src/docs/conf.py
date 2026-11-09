@@ -9,7 +9,7 @@
 project = 'Galaxy History Evaluator'
 copyright = '2022, Siyu Chen, Teresa Müller, Bérénice Batut'
 author = 'Siyu Chen, Teresa Müller, Bérénice Batut'
-release = '2.0.0'
+release = '3.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
