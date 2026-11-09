@@ -67,22 +67,15 @@ To modify the code and test it locally:
 Tests
 -----
 
-The code and individual functions are covered by tests, using `unittests`.
+The code and individual functions are covered by tests, using `pytest`.
 
 We also recommend to run them locally before pushing to GitHub with:
 
+.. code-block:: bash
 
-1. Export the Galaxy API key as environment variable
+   $ make test
 
-   .. code-block:: bash
-
-      $ export GALAXY_API_KEY=<REPLACE_WITH_GALAXY_API_KEY>
-
-2. Run the unit tests
-
-   .. code-block:: bash
-
-      $ make test
+Most tests run offline on histories saved in `tests/data/histories`. A few tests read public histories on usegalaxy.eu and the GTN, and need internet access but no Galaxy API key.
 
 
 After adding new function or making changes to an existing function, make sure to make changes to the tests in the `test` folder.

@@ -16,7 +16,7 @@ build: init ## build
 
 test: ## run the tests
 	flake8 --exclude=.git,build --ignore=E501 .
-	py.test --cov=enasearch tests/
+	pytest --cov=ghevaluator tests/
 .PHONY: test
 
 upload: build ## upload on PyPi

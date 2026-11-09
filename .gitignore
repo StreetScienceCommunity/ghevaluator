@@ -90,3 +90,8 @@ ENV/
 # Rope project settings
 .ropeproject
 tmp/
+
+# reports written by the tests
+/report.json
+/report.html
+/report.md

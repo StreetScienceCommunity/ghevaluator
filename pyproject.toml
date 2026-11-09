@@ -9,7 +9,7 @@ authors = [
 description = "A command-line Python tool to compare Galaxy histories to a template workflow and generate a JSON report file."
 readme = "README.md"
 license = {file = "LICENSE"}
-requires-python = ">=3.7"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -18,7 +18,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "bioblend",
+    "Jinja2",
     "requests",
 ]
 
@@ -34,5 +34,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages]
-find = {} 
+find = {}
+
+[tool.setuptools.package-data]
+ghevaluator = ["templates/*.html", "templates/*.md"]
 
